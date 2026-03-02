@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Careers | OYDA — Own Your Digital Application</title>
+    <meta name="description" content="Build empires. Build your career. Join our team of exceptional engineers, designers, and strategists.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           CSS VARIABLES & THEME (MATCHING SYSTEM)
+           ========================================================================== */
+        :root {
+            /* Colors - Neutrals */
+            --white: #FFFFFF;
+            --off-white: #FAFAF7;
+            --warm-white: #F8F6F0;
+            --cream: #F5F1E8;
+            --light-gray: #F0EEEA;
+            
+            /* Colors - Golds/Oranges */
+            --gold-primary: #C9A84C;
+            --gold-bright: #D4AF37;
+            --gold-deep: #A8852A;
+            --orange-amber: #D4890B;
+            --orange-warm: #E8960C;
+            --gold-light: #E8D5A3;
+            --gold-pale: #F0E6C8;
+            --yellow-glow: #F5D060;
+            
+            /* Transparent accents */
+            --gold-shadow: rgba(201,168,76,0.12);
+            --gold-hover: rgba(201,168,76,0.06);
+            --border-subtle: rgba(201,168,76,0.1);
+            --border-med: rgba(201,168,76,0.25);
+
+            /* Colors - Text */
+            --text-heading: #111111;
+            --text-body: #333333;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --text-disabled: #BBBBBB;
+
+            /* Typography */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accent: 'Playfair Display', serif;
+            --font-code: 'JetBrains Mono', monospace;
+
+            /* Utilities */
+            --easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --container-width: 1320px;
+        }
+
+        /* ==========================================================================
+           RESET & BASE
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        body.loaded { opacity: 1; }
+        @media (min-width: 768px) {
+            body { cursor: none; }
+            a, button, input, textarea, summary { cursor: none; }
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img, svg { max-width: 100%; display: block; }
+        input { font-family: inherit; }
+
+        /* ==========================================================================
+           GLOBAL EFFECTS
+           ========================================================================== */
+        .grain-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, var(--gold-primary), var(--orange-amber));
+            width: 0%; z-index: 99999; will-change: width;
+        }
+        
+        /* Cursor */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background-color: var(--gold-primary); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 100000; transition: transform 0.2s var(--easing);
+        }
+        .cursor-ring {
+            position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+            border: 1.5px solid var(--gold-primary); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 99999; transition: width 0.3s var(--easing), height 0.3s var(--easing);
+            will-change: transform;
+        }
+        .cursor-hover .cursor-dot { transform: translate(-50%, -50%) scale(1.5); }
+        .cursor-hover .cursor-ring { width: 48px; height: 48px; background-color: rgba(201,168,76,0.05); }
+        @media (max-width: 767px) {
+            .cursor-dot, .cursor-ring { display: none; }
+            body, a, button, summary, input { cursor: auto !important; }
+        }
+
+        /* Mouse Spotlight */
+        .mouse-spotlight {
+            position: fixed; top: 0; left: 0; width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(201,168,76,0.025) 0%, transparent 70%);
+            border-radius: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 9000; will-change: transform;
+        }
+        @media (max-width: 767px) { .mouse-spotlight { display: none; } }
+
+        /* Backgrounds */
+        .bg-grid {
+            background-image: radial-gradient(rgba(201,168,76,0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        .bg-cream { background-color: var(--cream); }
+        .bg-offwhite { background-color: var(--off-white); }
+
+        .tech-badge {
+            position: absolute; font-family: var(--font-code); font-size: 10px;
+            color: var(--gold-primary); background: rgba(240,230,200,0.5);
+            border: 1px solid rgba(201,168,76,0.15); border-radius: 4px;
+            padding: 4px 8px; opacity: 0.15; pointer-events: none; z-index: 1;
+            animation: floatBadge 6s ease-in-out infinite alternate;
+        }
+        @keyframes floatBadge {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+        @media (max-width: 767px) { .tech-badge { display: none; } }
+
+        /* ==========================================================================
+           UTILITIES & LAYOUT
+           ========================================================================== */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 48px; position: relative; z-index: 2; }
+        section { padding: 120px 0; position: relative; }
+        
+        .section-header { margin-bottom: 64px; }
+        .section-header.center { text-align: center; display: flex; flex-direction: column; align-items: center; }
+        
+        .label {
+            font-family: var(--font-body); font-size: 11px; font-weight: 600;
+            color: var(--gold-primary); text-transform: uppercase; letter-spacing: 5px;
+            display: inline-flex; align-items: center; gap: 16px;
+        }
+        .label.decorated::before, .label.decorated::after { content: ''; width: 40px; height: 1px; background: var(--border-med); }
+        
+        .h2 {
+            font-family: var(--font-heading); font-size: clamp(28px, 5vw, 40px); font-weight: 700;
+            color: var(--text-heading); margin-top: 16px; line-height: 1.1;
+        }
+        .subtitle {
+            font-family: var(--font-body); font-size: 18px; font-weight: 400;
+            color: var(--text-secondary); margin-top: 16px; max-width: 680px; line-height: 1.6;
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s var(--easing), transform 0.7s var(--easing);
+            will-change: opacity, transform;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Buttons & Links */
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--gold-primary); color: var(--white);
+            border: 2px solid var(--gold-primary); border-radius: 8px;
+            padding: 16px 40px; font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2.5px; transition: all 0.3s ease;
+            position: relative; overflow: hidden; cursor: pointer;
+        }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg); transition: none;
+        }
+        .btn-primary:hover { background: var(--gold-deep); border-color: var(--gold-deep); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.25); }
+        .btn-primary:hover::after { left: 200%; transition: left 0.6s ease; }
+
+        .link-text {
+            font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            color: var(--gold-primary); text-transform: uppercase; letter-spacing: 2px;
+            display: inline-flex; align-items: center; position: relative; padding-bottom: 4px;
+        }
+        .link-text .arrow { margin-left: 6px; transition: transform 0.3s ease; }
+        .link-text::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: var(--gold-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+        }
+        .link-text:hover .arrow { transform: translateX(4px); }
+        .link-text:hover::after { transform: scaleX(1); }
+
+        .tag-pill {
+            font-family: var(--font-code); font-size: 10.5px; font-weight: 500;
+            color: var(--gold-primary); background: var(--gold-pale);
+            border: 1px solid rgba(201,168,76,0.15); border-radius: 100px; padding: 4px 12px;
+            display: inline-block; white-space: nowrap; margin-bottom: 8px; margin-right: 8px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed; top: 3px; left: 0; width: 100%; height: 80px;
+            z-index: 9999; transition: all 0.3s ease; background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-subtle); box-shadow: 0 4px 20px rgba(0,0,0,0.04); height: 72px;
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .brand-logo { display: flex; flex-direction: column; }
+        .brand-name { font-family: var(--font-heading); font-weight: 700; font-size: 26px; color: var(--text-heading); letter-spacing: 5px; line-height: 1; }
+        .brand-tagline { font-family: var(--font-body); font-size: 8.5px; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; margin-top: 2px; }
+        .nav-links { display: flex; gap: 36px; }
+        .nav-link {
+            font-family: var(--font-body); font-size: 13px; font-weight: 500;
+            color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px;
+            position: relative; padding-bottom: 6px; transition: color 0.3s ease;
+        }
+        .nav-link:hover { color: var(--gold-primary); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: var(--gold-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+        
+        .nav-cta {
+            background: var(--gold-primary); color: var(--white); border: none; border-radius: 6px;
+            padding: 11px 26px; font-family: var(--font-body); font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease;
+        }
+        .nav-cta:hover { background: var(--gold-deep); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.3); }
+
+        /* Mobile Menu */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; z-index: 10000; }
+        .menu-toggle span { width: 24px; height: 2px; background: var(--gold-primary); transition: 0.3s ease; }
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--white);
+            z-index: 9998; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: all; }
+        .mobile-links { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-bottom: 40px; }
+        .mobile-link { font-family: var(--font-heading); font-size: 28px; font-weight: 500; color: var(--text-heading); }
+        .mobile-link.active { color: var(--gold-primary); position: relative; }
+        .mobile-link.active::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 6px; border-radius: 50%; background: var(--gold-primary);
+        }
+
+        /* ==========================================================================
+           PAGE SPECIFIC SECTIONS
+           ========================================================================== */
+
+        /* Hero */
+        .page-hero {
+            height: 60vh; min-height: 450px; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding-top: 80px; background-color: var(--white);
+        }
+        .breadcrumb { font-family: var(--font-body); font-size: 12px; color: var(--text-muted); margin-bottom: 32px; }
+        .breadcrumb a { color: var(--text-muted); transition: color 0.3s; }
+        .breadcrumb a:hover { color: var(--gold-primary); }
+        .breadcrumb .sep { color: #CCCCCC; margin: 0 8px; }
+        .breadcrumb .current { color: var(--text-secondary); }
+        .hero-title {
+            font-family: var(--font-heading); font-weight: 700; font-size: clamp(40px, 6vw, 68px);
+            line-height: 1.06; color: var(--text-heading); margin-top: 16px; margin-bottom: 20px;
+        }
+
+        /* Perks Section */
+        .perks-section { background: var(--off-white); }
+        .perks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .perk-card {
+            background: var(--white); border: 1px solid var(--border-subtle); border-radius: 12px;
+            padding: 40px 36px; transition: all 0.4s var(--easing); position: relative; overflow: hidden;
+        }
+        .perk-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 12px; border: 1px solid transparent; transition: border-color 0.4s ease; pointer-events: none;
+        }
+        .perk-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px var(--gold-shadow); border-color: transparent; }
+        .perk-card:hover::before { border-color: rgba(201,168,76,0.4); }
+        .perk-card::after {
+            content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 2px;
+            background: rgba(201,168,76,0.15); box-shadow: 0 0 10px var(--gold-primary); opacity: 0; pointer-events: none;
+        }
+        .perk-card:hover::after { animation: scanLine 0.6s linear forwards; }
+        .perk-num { font-family: var(--font-code); font-size: 13px; font-weight: 600; color: var(--gold-primary); margin-bottom: 16px; }
+        .perk-title { font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: var(--text-heading); margin-bottom: 12px; }
+        .perk-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.65; }
+
+        @keyframes scanLine {
+            0% { top: -10px; opacity: 1; }
+            90% { top: 100%; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Jobs Section */
+        .jobs-section { background: var(--white); }
+        .jobs-container { display: flex; flex-direction: column; gap: 24px; max-width: 1000px; margin: 0 auto; }
+        .job-card {
+            background: var(--white); border: 1px solid var(--border-subtle); border-radius: 12px;
+            padding: 40px; display: flex; justify-content: space-between; align-items: center; gap: 40px;
+            transition: all 0.4s var(--easing);
+        }
+        .job-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px var(--gold-shadow); border-color: var(--gold-primary); }
+        .job-info { flex: 1; }
+        .job-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-family: var(--font-body); font-size: 13px; }
+        .job-type { color: var(--gold-primary); font-weight: 600; }
+        .meta-dot { color: var(--border-med); }
+        .job-loc { color: var(--text-muted); }
+        .job-title { font-family: var(--font-heading); font-size: 24px; font-weight: 600; color: var(--text-heading); margin-bottom: 16px; }
+        .job-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; max-width: 700px; }
+        .job-reqs { display: flex; flex-wrap: wrap; }
+        .job-action { flex-shrink: 0; }
+        .job-btn { white-space: nowrap; }
+
+        /* Hiring Process */
+        .process-section { background: var(--off-white); }
+        .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .step-card {
+            background: var(--white); border: 1px solid var(--border-subtle); border-radius: 12px;
+            padding: 36px 32px; transition: all 0.4s ease; border-left: 3px solid var(--gold-primary);
+        }
+        .step-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px var(--gold-shadow); }
+        .step-num { font-family: var(--font-code); font-size: 12px; font-weight: 600; color: var(--gold-primary); margin-bottom: 12px; text-transform: uppercase; }
+        .step-title { font-family: var(--font-heading); font-size: 19px; font-weight: 600; color: var(--text-heading); margin-bottom: 8px; }
+        .step-time { font-family: var(--font-code); font-size: 11px; color: var(--text-muted); margin-bottom: 16px; }
+        .step-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* General App Section */
+        .general-app-section { padding: 100px 48px; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); text-align: center; }
+        .gen-container { max-width: 600px; margin: 0 auto; }
+        .gen-text { font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px; }
+        .gen-email { display: block; font-family: var(--font-code); font-size: 15px; color: var(--gold-primary); font-weight: 600; margin-bottom: 32px; transition: color 0.3s; }
+        .gen-email:hover { color: var(--gold-deep); }
+
+        /* CTA Banner */
+        .cta-banner { padding: 120px 48px; background: linear-gradient(135deg, #F5F1E8 0%, rgba(201,168,76,0.06) 50%, #F5F1E8 100%); text-align: center; position: relative; overflow: hidden; }
+        .cta-decor-1 { position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.06); pointer-events: none; }
+        .cta-decor-2 { position: absolute; bottom: -50px; left: -50px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.06); pointer-events: none; }
+        .cta-h2 { font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: var(--text-heading); margin-top: 16px; margin-bottom: 32px; position: relative; z-index: 2; }
+        
+        /* Footer */
+        .footer { background: var(--off-white); border-top: 1px solid rgba(201,168,76,0.15); padding: 80px 48px 36px; }
+        .foot-top { max-width: var(--container-width); margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; gap: 40px; }
+        .foot-desc { font-size: 14px; font-weight: 300; color: var(--text-muted); margin-top: 16px; max-width: 260px; }
+        .socials { display: flex; gap: 12px; margin-top: 24px; }
+        .social-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); transition: all 0.3s; }
+        .social-btn svg { width: 15px; height: 15px; fill: currentColor; }
+        .social-btn:hover { background: var(--gold-primary); color: var(--white); border-color: var(--gold-primary); transform: translateY(-2px); }
+        .foot-col-title { font-size: 10px; font-weight: 600; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        .foot-links li { margin-bottom: 8px; }
+        .foot-links a { font-size: 14px; font-weight: 300; color: var(--text-secondary); transition: 0.3s; line-height: 2.2; }
+        .foot-links a:hover, .foot-links a.active { color: var(--gold-primary); }
+        .foot-links a.active { font-weight: 500; }
+        .foot-bottom { max-width: var(--container-width); margin: 48px auto 0; padding-top: 24px; border-top: 1px solid rgba(201,168,76,0.1); display: flex; justify-content: space-between; font-size: 12px; font-weight: 300; color: var(--text-muted); }
+        .foot-legal { display: flex; gap: 24px; }
+        .foot-legal a:hover { color: var(--gold-primary); }
+
+        /* ==========================================================================
+           MEDIA QUERIES
+           ========================================================================== */
+        @media (max-width: 1199px) {
+            .nav-links { gap: 24px; }
+            .perks-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-grid { grid-template-columns: repeat(2, 1fr); }
+            .foot-top { grid-template-columns: repeat(2, 1fr); }
+            .foot-col-brand { grid-column: span 2; margin-bottom: 20px; }
+        }
+
+        @media (max-width: 767px) {
+            section { padding: 80px 0; }
+            .container { padding: 0 20px; }
+            .nav-container { padding: 0 20px; }
+            .navbar.scrolled { height: 68px; }
+            .nav-links, .nav-cta { display: none; }
+            .menu-toggle { display: flex; }
+            .page-hero { padding: 0 20px; min-height: auto; padding-top: 120px; padding-bottom: 80px;}
+            
+            .perks-grid { grid-template-columns: 1fr; }
+            
+            .job-card { flex-direction: column; align-items: flex-start; gap: 24px; padding: 32px 24px; }
+            .job-action { width: 100%; }
+            .job-btn { width: 100%; }
+            
+            .process-grid { grid-template-columns: 1fr; }
+            
+            .general-app-section { padding: 80px 20px; }
+            
+            .foot-top { grid-template-columns: 1fr; }
+            .foot-col-brand { grid-column: span 1; }
+            .foot-bottom { flex-direction: column; gap: 16px; align-items: center; text-align: center;}
+            .cta-banner { padding: 80px 20px; }
+        }
+
+        /* Hardware Acceleration */
+        .reveal, .cursor-dot, .cursor-ring, .scroll-progress { transform: translateZ(0); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="progressBar"></div>
+
+    <!-- Custom Cursor (Desktop) -->
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="mouse-spotlight" id="spotlight"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-logo hover-trigger">
+                <span class="brand-name">OYDA</span>
+                <span class="brand-tagline">Own Your Digital Application</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link hover-trigger">Home</a></li>
+                <li><a href="services.html" class="nav-link hover-trigger">Services</a></li>
+                <li><a href="portfolio.html" class="nav-link hover-trigger">Work</a></li>
+                <li><a href="process.html" class="nav-link hover-trigger">Process</a></li>
+                <li><a href="about.html" class="nav-link hover-trigger">About</a></li>
+                <li><a href="blog.html" class="nav-link hover-trigger">Blog</a></li>
+                <li><a href="contact.html" class="nav-link hover-trigger">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="nav-cta hover-trigger">Start a Project</a>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-links">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="services.html" class="mobile-link">Services</a>
+            <a href="portfolio.html" class="mobile-link">Our Work</a>
+            <a href="process.html" class="mobile-link">Process</a>
+            <a href="about.html" class="mobile-link">About</a>
+            <a href="blog.html" class="mobile-link">Blog</a>
+            <a href="careers.html" class="mobile-link active">Careers</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+        </div>
+        <a href="contact.html" class="btn-primary">Start a Project</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="page-hero bg-grid">
+        <div class="tech-badge" style="top: 20%; left: 10%; animation-delay: 0s">&lt;/&gt;</div>
+        <div class="tech-badge" style="top: 70%; right: 15%; animation-delay: 1.5s">API</div>
+        <div class="tech-badge" style="top: 30%; right: 8%; animation-delay: 0.7s">npm</div>
+        <div class="tech-badge" style="bottom: 15%; left: 20%; animation-delay: 2s">{}</div>
+        
+        <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+            <div class="breadcrumb reveal">
+                <a href="index.html" class="hover-trigger">Home</a>
+                <span class="sep">/</span>
+                <span class="current">Careers</span>
+            </div>
+            
+            <div class="label decorated reveal" style="transition-delay: 0.1s">Join OYDA</div>
+            
+            <h1 class="hero-title reveal" style="transition-delay: 0.2s">
+                Build Empires. Build Your Career.
+            </h1>
+            
+            <p class="subtitle reveal" style="transition-delay: 0.3s">
+                We're looking for exceptional engineers, designers, and strategists who believe ambitious businesses deserve world-class technology. If that's you, let's talk.
+            </p>
+        </div>
+    </section>
+
+    <!-- Perks Section -->
+    <section class="perks-section bg-grid">
+        <div class="container">
+            <div class="section-header center reveal">
+                <h2 class="h2">Why People Choose OYDA</h2>
+            </div>
+
+            <div class="perks-grid">
+                <!-- Perk 1 -->
+                <div class="perk-card reveal hover-trigger">
+                    <div class="perk-num">01</div>
+                    <h3 class="perk-title">Remote-First, Always</h3>
+                    <p class="perk-desc">Work from anywhere in the world. Our team spans 4 countries and 6 timezones. We've built our entire workflow for async collaboration without sacrificing team energy.</p>
+                </div>
+                <!-- Perk 2 -->
+                <div class="perk-card reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="perk-num">02</div>
+                    <h3 class="perk-title">Senior-Only Culture</h3>
+                    <p class="perk-desc">No hierarchy of juniors doing the work while seniors supervise. Everyone here is a builder. You'll work alongside experienced professionals who challenge and inspire you.</p>
+                </div>
+                <!-- Perk 3 -->
+                <div class="perk-card reveal hover-trigger" style="transition-delay: 0.2s">
+                    <div class="perk-num">03</div>
+                    <h3 class="perk-title">20% Learning Time</h3>
+                    <p class="perk-desc">One day per week for exploration. Learn a new framework, contribute to open source, write a blog post, experiment with AI tools. Growth isn't optional — it's part of the job.</p>
+                </div>
+                <!-- Perk 4 -->
+                <div class="perk-card reveal hover-trigger">
+                    <div class="perk-num">04</div>
+                    <h3 class="perk-title">Real Impact</h3>
+                    <p class="perk-desc">No bureaucracy, no meetings-about-meetings. Every person here directly impacts client outcomes. Your code ships. Your designs launch. Your strategies drive revenue.</p>
+                </div>
+                <!-- Perk 5 -->
+                <div class="perk-card reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="perk-num">05</div>
+                    <h3 class="perk-title">Premium Projects</h3>
+                    <p class="perk-desc">We work on interesting, challenging projects for ambitious clients. No template websites. No cookie-cutter solutions. Every project demands creative problem-solving.</p>
+                </div>
+                <!-- Perk 6 -->
+                <div class="perk-card reveal hover-trigger" style="transition-delay: 0.2s">
+                    <div class="perk-num">06</div>
+                    <h3 class="perk-title">Competitive Compensation</h3>
+                    <p class="perk-desc">Market-rate salaries + performance bonuses + annual learning budget ($2,000/year for courses, conferences, books) + latest equipment provided.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Open Positions Section -->
+    <section class="jobs-section">
+        <div class="container">
+            <div class="section-header center reveal">
+                <h2 class="h2">Open Positions</h2>
+                <p class="subtitle">Current opportunities to join our team</p>
+            </div>
+
+            <div class="jobs-container">
+                <!-- Job 1 -->
+                <div class="job-card reveal hover-trigger">
+                    <div class="job-info">
+                        <div class="job-meta">
+                            <span class="job-type">Full-Time · Remote</span>
+                            <span class="meta-dot">·</span>
+                            <span class="job-loc">Anywhere (UTC+0 to UTC+5.5)</span>
+                        </div>
+                        <h3 class="job-title">Senior Full-Stack Engineer</h3>
+                        <p class="job-desc">We're looking for a senior full-stack engineer with 5+ years of experience in React, Node.js, and PostgreSQL. You'll lead the technical implementation of client projects from architecture to deployment.</p>
+                        <div class="job-reqs">
+                            <span class="tag-pill">React/Next.js</span>
+                            <span class="tag-pill">Node.js</span>
+                            <span class="tag-pill">PostgreSQL</span>
+                            <span class="tag-pill">AWS</span>
+                            <span class="tag-pill">TypeScript</span>
+                            <span class="tag-pill">5+ years experience</span>
+                        </div>
+                    </div>
+                    <div class="job-action">
+                        <a href="mailto:careers@oyda.agency?subject=Application: Senior Full-Stack Engineer" class="btn-primary job-btn hover-trigger">Apply Now <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="job-card reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="job-info">
+                        <div class="job-meta">
+                            <span class="job-type">Full-Time · Remote</span>
+                            <span class="meta-dot">·</span>
+                            <span class="job-loc">Anywhere</span>
+                        </div>
+                        <h3 class="job-title">Senior UI/UX Designer</h3>
+                        <p class="job-desc">A senior product designer with 4+ years of experience designing web and mobile applications. Strong portfolio showing problem-solving through design, not just visual skills.</p>
+                        <div class="job-reqs">
+                            <span class="tag-pill">Figma</span>
+                            <span class="tag-pill">Design Systems</span>
+                            <span class="tag-pill">User Research</span>
+                            <span class="tag-pill">Prototyping</span>
+                            <span class="tag-pill">Mobile Design</span>
+                            <span class="tag-pill">4+ years</span>
+                        </div>
+                    </div>
+                    <div class="job-action">
+                        <a href="mailto:careers@oyda.agency?subject=Application: Senior UI/UX Designer" class="btn-primary job-btn hover-trigger">Apply Now <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="job-card reveal hover-trigger" style="transition-delay: 0.2s">
+                    <div class="job-info">
+                        <div class="job-meta">
+                            <span class="job-type">Full-Time · Remote</span>
+                            <span class="meta-dot">·</span>
+                            <span class="job-loc">Anywhere</span>
+                        </div>
+                        <h3 class="job-title">AI/ML Engineer</h3>
+                        <p class="job-desc">An AI engineer experienced in building production LLM applications, chatbots, and automation systems. You'll architect and deploy AI solutions for diverse client challenges.</p>
+                        <div class="job-reqs">
+                            <span class="tag-pill">Python</span>
+                            <span class="tag-pill">LangChain</span>
+                            <span class="tag-pill">GPT-4 API</span>
+                            <span class="tag-pill">Vector DBs</span>
+                            <span class="tag-pill">FastAPI</span>
+                            <span class="tag-pill">3+ years AI experience</span>
+                        </div>
+                    </div>
+                    <div class="job-action">
+                        <a href="mailto:careers@oyda.agency?subject=Application: AI/ML Engineer" class="btn-primary job-btn hover-trigger">Apply Now <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Job 4 -->
+                <div class="job-card reveal hover-trigger">
+                    <div class="job-info">
+                        <div class="job-meta">
+                            <span class="job-type">Full-Time · Remote / Dubai</span>
+                            <span class="meta-dot">·</span>
+                            <span class="job-loc">Dubai preferred, remote considered</span>
+                        </div>
+                        <h3 class="job-title">Digital Marketing Manager</h3>
+                        <p class="job-desc">A data-driven marketing professional to lead SEO, paid advertising, and content strategy for our clients. Must have proven track record of driving measurable growth.</p>
+                        <div class="job-reqs">
+                            <span class="tag-pill">SEO</span>
+                            <span class="tag-pill">Google Ads</span>
+                            <span class="tag-pill">Analytics</span>
+                            <span class="tag-pill">Content Strategy</span>
+                            <span class="tag-pill">4+ years experience</span>
+                        </div>
+                    </div>
+                    <div class="job-action">
+                        <a href="mailto:careers@oyda.agency?subject=Application: Digital Marketing Manager" class="btn-primary job-btn hover-trigger">Apply Now <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Job 5 -->
+                <div class="job-card reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="job-info">
+                        <div class="job-meta">
+                            <span class="job-type">Full-Time · Remote / Dubai</span>
+                            <span class="meta-dot">·</span>
+                            <span class="job-loc">Dubai preferred, remote considered</span>
+                        </div>
+                        <h3 class="job-title">Project Manager</h3>
+                        <p class="job-desc">An organized, communicative PM to manage 3-5 concurrent client projects. Scrum/Agile experience required. You'll be the bridge between our clients and our engineering team.</p>
+                        <div class="job-reqs">
+                            <span class="tag-pill">Scrum/Agile</span>
+                            <span class="tag-pill">Jira</span>
+                            <span class="tag-pill">Client Management</span>
+                            <span class="tag-pill">Technical Background</span>
+                            <span class="tag-pill">3+ years PM experience</span>
+                        </div>
+                    </div>
+                    <div class="job-action">
+                        <a href="mailto:careers@oyda.agency?subject=Application: Project Manager" class="btn-primary job-btn hover-trigger">Apply Now <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Hiring Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <div class="section-header center reveal">
+                <h2 class="h2">Our Hiring Process</h2>
+                <p class="subtitle">Transparent, respectful, and fast</p>
+            </div>
+
+            <div class="process-grid">
+                <div class="step-card reveal hover-trigger">
+                    <div class="step-num">Step 1</div>
+                    <h3 class="step-title">Application Review</h3>
+                    <div class="step-time">2-3 days</div>
+                    <p class="step-desc">Submit your resume and portfolio. We review every application personally — no AI screening.</p>
+                </div>
+                <div class="step-card reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="step-num">Step 2</div>
+                    <h3 class="step-title">Culture Chat</h3>
+                    <div class="step-time">30 min</div>
+                    <p class="step-desc">A casual conversation about your background, interests, and what you're looking for. No trick questions.</p>
+                </div>
+                <div class="step-card reveal hover-trigger" style="transition-delay: 0.2s">
+                    <div class="step-num">Step 3</div>
+                    <h3 class="step-title">Technical Assessment</h3>
+                    <div class="step-time">2-3 hours</div>
+                    <p class="step-desc">A practical take-home challenge relevant to the role. We evaluate problem-solving approach, not just output.</p>
+                </div>
+                <div class="step-card reveal hover-trigger" style="transition-delay: 0.3s">
+                    <div class="step-num">Step 4</div>
+                    <h3 class="step-title">Final Interview & Offer</h3>
+                    <div class="step-time">45 min + 1-2 days</div>
+                    <p class="step-desc">Meet the team lead. Discuss the challenge. If it's a mutual fit, you'll have an offer within 48 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- General App Section -->
+    <section class="general-app-section bg-cream">
+        <div class="container gen-container reveal">
+            <h2 class="h2">Don't See Your Role?</h2>
+            <p class="gen-text">We're always looking for exceptional people. If you believe you can contribute to OYDA's mission, send us your resume and portfolio. We'll keep you in mind for future opportunities.</p>
+            <a href="mailto:careers@oyda.agency" class="gen-email hover-trigger">careers@oyda.agency</a>
+            <a href="mailto:careers@oyda.agency?subject=General Application" class="btn-primary hover-trigger">Send General Application</a>
+        </div>
+    </section>
+
+    <!-- Final CTA Banner -->
+    <section class="cta-banner">
+        <div class="cta-decor-1"></div>
+        <div class="cta-decor-2"></div>
+        <div class="container reveal">
+            <h2 class="cta-h2">Ready to Build Something Exceptional?</h2>
+            <a href="contact.html" class="btn-primary hover-trigger" style="padding: 18px 48px;">Start Your Project</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="foot-top">
+            <div class="foot-col-brand">
+                <a href="index.html" class="brand-logo hover-trigger">
+                    <span class="brand-name">OYDA</span>
+                    <span class="brand-tagline">Own Your Digital Application</span>
+                </a>
+                <p class="foot-desc">Premium technology agency crafting digital empires for ambitious businesses worldwide.</p>
+                <div class="socials">
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                </div>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Services</div>
+                <ul class="foot-links">
+                    <li><a href="services.html" class="hover-trigger">Web Development</a></li>
+                    <li><a href="services.html" class="hover-trigger">Mobile Apps</a></li>
+                    <li><a href="services.html" class="hover-trigger">AI & Automation</a></li>
+                    <li><a href="services.html" class="hover-trigger">Digital Marketing</a></li>
+                    <li><a href="services.html" class="hover-trigger">UI/UX Design</a></li>
+                    <li><a href="services.html" class="hover-trigger">Cloud Solutions</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Company</div>
+                <ul class="foot-links">
+                    <li><a href="about.html" class="hover-trigger">About Us</a></li>
+                    <li><a href="process.html" class="hover-trigger">Our Process</a></li>
+                    <li><a href="portfolio.html" class="hover-trigger">Portfolio</a></li>
+                    <li><a href="careers.html" class="active hover-trigger">Careers</a></li>
+                    <li><a href="blog.html" class="hover-trigger">Blog</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Resources</div>
+                <ul class="foot-links">
+                    <li><a href="#" class="hover-trigger">Documentation</a></li>
+                    <li><a href="#" class="hover-trigger">Support Center</a></li>
+                    <li><a href="#" class="hover-trigger">Style Guide</a></li>
+                    <li><a href="#" class="hover-trigger">API Reference</a></li>
+                    <li><a href="#" class="hover-trigger">Open Source</a></li>
+                    <li><a href="#" class="hover-trigger">Status Page</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Contact</div>
+                <ul class="foot-links">
+                    <li><a href="mailto:hello@oyda.agency" class="hover-trigger" style="color: var(--gold-primary);">hello@oyda.agency</a></li>
+                    <li><a href="#" class="hover-trigger">+971 (0) 000 000</a></li>
+                    <li>Dubai, UAE</li>
+                    <li>Sun – Thu, 9AM – 6PM GST</li>
+                </ul>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <div>© 2025 OYDA. All rights reserved. Engineered in Dubai.</div>
+            <div class="foot-legal">
+                <a href="#" class="hover-trigger">Privacy Policy</a>
+                <a href="#" class="hover-trigger">Terms of Service</a>
+                <a href="#" class="hover-trigger">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Page Load Animation
+            document.body.classList.add('loaded');
+            
+            setTimeout(() => {
+                document.querySelectorAll('.hero-elem, .reveal').forEach(el => {
+                    if(el.classList.contains('hero-title') || el.classList.contains('subtitle') || el.classList.contains('breadcrumb') || el.classList.contains('label')) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            }, 300);
+
+            // 2. Custom Cursor & Spotlight (Desktop Only)
+            const isDesktop = window.innerWidth > 767;
+            if (isDesktop) {
+                const cursorDot = document.getElementById('cursorDot');
+                const cursorRing = document.getElementById('cursorRing');
+                const spotlight = document.getElementById('spotlight');
+                
+                let mouseX = window.innerWidth / 2;
+                let mouseY = window.innerHeight / 2;
+                let ringX = mouseX;
+                let ringY = mouseY;
+                let spotlightX = mouseX;
+                let spotlightY = mouseY;
+                
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    cursorDot.style.left = mouseX + 'px';
+                    cursorDot.style.top = mouseY + 'px';
+                });
+
+                const renderCursor = () => {
+                    ringX += (mouseX - ringX) * 0.15;
+                    ringY += (mouseY - ringY) * 0.15;
+                    cursorRing.style.left = ringX + 'px';
+                    cursorRing.style.top = ringY + 'px';
+                    
+                    spotlightX += (mouseX - spotlightX) * 0.08;
+                    spotlightY += (mouseY - spotlightY) * 0.08;
+                    spotlight.style.left = spotlightX + 'px';
+                    spotlight.style.top = spotlightY + 'px';
+                    
+                    requestAnimationFrame(renderCursor);
+                };
+                renderCursor();
+
+                const hoverSelectors = '.hover-trigger, a, button, .gen-email';
+                document.querySelectorAll(hoverSelectors).forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+                });
+            }
+
+            // 3. Scroll Progress & Navbar
+            const progressBar = document.getElementById('progressBar');
+            const navbar = document.getElementById('navbar');
+            let isScrolling = false;
+
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                        const scrolled = (winScroll / height) * 100;
+                        progressBar.style.width = scrolled + "%";
+                        
+                        if (winScroll > 100) {
+                            navbar.classList.add('scrolled');
+                        } else {
+                            navbar.classList.remove('scrolled');
+                        }
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
+
+            // 4. Mobile Menu Toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            let menuOpen = false;
+
+            menuToggle.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if(menuOpen) {
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                    menuToggle.children[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                    menuToggle.children[1].style.opacity = '0';
+                    menuToggle.children[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                } else {
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                    menuToggle.children[0].style.transform = 'none';
+                    menuToggle.children[1].style.opacity = '1';
+                    menuToggle.children[2].style.transform = 'none';
+                }
+            });
+
+            // 5. Scroll Reveal
+            const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => { revealObserver.observe(el); });
+        });
+    </script>
+</body>
+</html>

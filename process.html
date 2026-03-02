@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Process | OYDA — Own Your Digital Application</title>
+    <meta name="description" content="A proven path from vision to reality. Explore our meticulous six-phase digital product delivery process.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           CSS VARIABLES & THEME (MATCHING HOME & SERVICES)
+           ========================================================================== */
+        :root {
+            /* Colors - Neutrals */
+            --white: #FFFFFF;
+            --off-white: #FAFAF7;
+            --warm-white: #F8F6F0;
+            --cream: #F5F1E8;
+            --light-gray: #F0EEEA;
+            
+            /* Colors - Golds/Oranges */
+            --gold-primary: #C9A84C;
+            --gold-bright: #D4AF37;
+            --gold-deep: #A8852A;
+            --orange-amber: #D4890B;
+            --orange-warm: #E8960C;
+            --gold-light: #E8D5A3;
+            --gold-pale: #F0E6C8;
+            --yellow-glow: #F5D060;
+            
+            /* Transparent accents */
+            --gold-shadow: rgba(201,168,76,0.12);
+            --gold-hover: rgba(201,168,76,0.06);
+            --border-subtle: rgba(201,168,76,0.1);
+            --border-med: rgba(201,168,76,0.25);
+
+            /* Colors - Text */
+            --text-heading: #111111;
+            --text-body: #333333;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --text-disabled: #BBBBBB;
+
+            /* Typography */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accent: 'Playfair Display', serif;
+            --font-code: 'JetBrains Mono', monospace;
+
+            /* Utilities */
+            --easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --container-width: 1320px;
+        }
+
+        /* ==========================================================================
+           RESET & BASE
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        body.loaded { opacity: 1; }
+        @media (min-width: 768px) {
+            body { cursor: none; }
+            a, button, input, textarea, summary { cursor: none; }
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img, svg { max-width: 100%; display: block; }
+
+        /* ==========================================================================
+           GLOBAL EFFECTS
+           ========================================================================== */
+        .grain-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, var(--gold-primary), var(--orange-amber));
+            width: 0%; z-index: 99999; will-change: width;
+        }
+        
+        /* Cursor */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background-color: var(--gold-primary); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 100000; transition: transform 0.2s var(--easing);
+        }
+        .cursor-ring {
+            position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+            border: 1.5px solid var(--gold-primary); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 99999; transition: width 0.3s var(--easing), height 0.3s var(--easing);
+            will-change: transform;
+        }
+        .cursor-hover .cursor-dot { transform: translate(-50%, -50%) scale(1.5); }
+        .cursor-hover .cursor-ring { width: 48px; height: 48px; background-color: rgba(201,168,76,0.05); }
+        @media (max-width: 767px) {
+            .cursor-dot, .cursor-ring { display: none; }
+            body, a, button, summary { cursor: auto !important; }
+        }
+
+        /* Mouse Spotlight */
+        .mouse-spotlight {
+            position: fixed; top: 0; left: 0; width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(201,168,76,0.025) 0%, transparent 70%);
+            border-radius: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 9000; will-change: transform;
+        }
+        @media (max-width: 767px) { .mouse-spotlight { display: none; } }
+
+        /* Backgrounds & Textures */
+        .bg-grid {
+            background-image: radial-gradient(rgba(201,168,76,0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        
+        .tech-badge {
+            position: absolute; font-family: var(--font-code); font-size: 10px;
+            color: var(--gold-primary); background: rgba(240,230,200,0.5);
+            border: 1px solid rgba(201,168,76,0.15); border-radius: 4px;
+            padding: 4px 8px; opacity: 0.15; pointer-events: none; z-index: 1;
+            animation: floatBadge 6s ease-in-out infinite alternate;
+        }
+        @keyframes floatBadge {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+        @media (max-width: 767px) { .tech-badge { display: none; } }
+
+        /* ==========================================================================
+           UTILITIES & LAYOUT
+           ========================================================================== */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 48px; position: relative; z-index: 2; }
+        section { padding: 120px 0; position: relative; }
+        
+        .section-header { margin-bottom: 64px; }
+        .section-header.center { text-align: center; display: flex; flex-direction: column; align-items: center; }
+        
+        .label {
+            font-family: var(--font-body); font-size: 11px; font-weight: 600;
+            color: var(--gold-primary); text-transform: uppercase; letter-spacing: 5px;
+            display: inline-flex; align-items: center; gap: 16px;
+        }
+        .label.decorated::before, .label.decorated::after { content: ''; width: 40px; height: 1px; background: var(--border-med); }
+        
+        .h2 {
+            font-family: var(--font-heading); font-size: clamp(28px, 5vw, 40px); font-weight: 700;
+            color: var(--text-heading); margin-top: 16px; line-height: 1.1;
+        }
+        .subtitle {
+            font-family: var(--font-body); font-size: 18px; font-weight: 400;
+            color: var(--text-secondary); margin-top: 16px; max-width: 680px; line-height: 1.6;
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s var(--easing), transform 0.7s var(--easing);
+            will-change: opacity, transform;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Buttons & Links */
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--gold-primary); color: var(--white);
+            border: 2px solid var(--gold-primary); border-radius: 8px;
+            padding: 16px 40px; font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2.5px; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg); transition: none;
+        }
+        .btn-primary:hover { background: var(--gold-deep); border-color: var(--gold-deep); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.25); }
+        .btn-primary:hover::after { left: 200%; transition: left 0.6s ease; }
+
+        /* Tech Card Global */
+        .tech-card {
+            background: var(--white); border: 1px solid var(--border-subtle); border-radius: 12px;
+            transition: all 0.4s var(--easing); position: relative; overflow: hidden; padding: 40px;
+        }
+        .tech-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 12px; border: 1px solid transparent; transition: border-color 0.4s ease; pointer-events: none;
+        }
+        .tech-card::after {
+            content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 2px;
+            background: rgba(201,168,76,0.15); box-shadow: 0 0 10px var(--gold-primary); opacity: 0; pointer-events: none;
+        }
+        .tech-card:hover { transform: translateY(-6px); box-shadow: 0 8px 40px var(--gold-shadow); border-color: transparent; }
+        .tech-card:hover::before { border-color: rgba(201,168,76,0.4); }
+        .tech-card:hover::after { animation: scanLine 0.6s linear forwards; }
+
+        @keyframes scanLine {
+            0% { top: -10px; opacity: 1; }
+            90% { top: 100%; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .tag-pill {
+            font-family: var(--font-code); font-size: 10.5px; font-weight: 500;
+            color: var(--gold-primary); background: var(--gold-pale);
+            border: 1px solid rgba(201,168,76,0.15); border-radius: 100px; padding: 4px 12px;
+            display: inline-block; white-space: nowrap;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed; top: 3px; left: 0; width: 100%; height: 80px;
+            z-index: 9999; transition: all 0.3s ease; background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-subtle); box-shadow: 0 4px 20px rgba(0,0,0,0.04); height: 72px;
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .brand-logo { display: flex; flex-direction: column; }
+        .brand-name { font-family: var(--font-heading); font-weight: 700; font-size: 26px; color: var(--text-heading); letter-spacing: 5px; line-height: 1; }
+        .brand-tagline { font-family: var(--font-body); font-size: 8.5px; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; margin-top: 2px; }
+        .nav-links { display: flex; gap: 36px; }
+        .nav-link {
+            font-family: var(--font-body); font-size: 13px; font-weight: 500;
+            color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px;
+            position: relative; padding-bottom: 6px; transition: color 0.3s ease;
+        }
+        .nav-link:hover { color: var(--gold-primary); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: var(--gold-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+        
+        /* Active State logic (Process) */
+        .nav-link.active { color: var(--gold-primary); }
+        .nav-link.active::before {
+            content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 4px; background: var(--gold-primary); border-radius: 50%;
+        }
+        .nav-link.active::after { display: none; }
+
+        .nav-cta {
+            background: var(--gold-primary); color: var(--white); border: none; border-radius: 6px;
+            padding: 11px 26px; font-family: var(--font-body); font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease;
+        }
+        .nav-cta:hover { background: var(--gold-deep); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.3); }
+
+        /* Mobile Menu */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; z-index: 10000; }
+        .menu-toggle span { width: 24px; height: 2px; background: var(--gold-primary); transition: 0.3s ease; }
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--white);
+            z-index: 9998; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: all; }
+        .mobile-links { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-bottom: 40px; }
+        .mobile-link { font-family: var(--font-heading); font-size: 28px; font-weight: 500; color: var(--text-heading); }
+        .mobile-link.active { color: var(--gold-primary); position: relative; }
+        .mobile-link.active::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 6px; border-radius: 50%; background: var(--gold-primary);
+        }
+
+        /* ==========================================================================
+           PAGE SPECIFIC SECTIONS
+           ========================================================================== */
+
+        /* Hero */
+        .page-hero {
+            height: 65vh; min-height: 500px; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding-top: 80px; background-color: var(--white);
+        }
+        .breadcrumb { font-family: var(--font-body); font-size: 12px; color: var(--text-muted); margin-bottom: 32px; }
+        .breadcrumb a { color: var(--text-muted); transition: color 0.3s; }
+        .breadcrumb a:hover { color: var(--gold-primary); }
+        .breadcrumb .sep { color: #CCCCCC; margin: 0 8px; }
+        .breadcrumb .current { color: var(--text-secondary); }
+        .hero-title {
+            font-family: var(--font-heading); font-weight: 700; font-size: clamp(40px, 6vw, 68px);
+            line-height: 1.06; color: var(--text-heading); margin-top: 16px; margin-bottom: 20px;
+        }
+
+        /* Metrics */
+        .metrics-section {
+            padding: 80px 0; background: var(--off-white);
+            border-top: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08);
+        }
+        .metrics-grid {
+            max-width: var(--container-width); margin: 0 auto; display: flex; justify-content: space-between;
+            align-items: center; padding: 0 48px; flex-wrap: wrap; gap: 32px;
+        }
+        .metric-col { text-align: center; flex: 1; min-width: 130px; }
+        .metric-divider { width: 1px; height: 40px; background: rgba(201,168,76,0.2); }
+        .metric-num { font-family: var(--font-code); font-size: 44px; font-weight: 700; color: var(--text-heading); line-height: 1; }
+        .metric-num span { color: var(--gold-primary); }
+        .metric-label { font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; margin-top: 8px; }
+
+        /* Timeline Section */
+        .process-detail-section { background: var(--white); padding: 140px 0; }
+        .timeline-wrap {
+            max-width: 1000px; margin: 0 auto; position: relative; padding: 40px 0;
+        }
+        .tl-axis {
+            position: absolute; top: 0; left: 48px; width: 2px; height: 100%;
+            background: linear-gradient(180deg, transparent, var(--gold-primary) 5%, var(--gold-primary) 95%, transparent);
+            opacity: 0.3;
+        }
+        .tl-item { position: relative; margin-bottom: 100px; display: flex; align-items: flex-start; }
+        .tl-item:last-child { margin-bottom: 0; }
+        
+        .tl-node-wrap {
+            width: 96px; flex-shrink: 0; display: flex; justify-content: center; position: relative; z-index: 2; padding-top: 24px;
+        }
+        .tl-node {
+            width: 32px; height: 32px; background: var(--gold-primary); border-radius: 50%;
+            border: 6px solid var(--white); box-shadow: 0 0 0 1px var(--gold-primary);
+            display: flex; align-items: center; justify-content: center; color: var(--white);
+            font-family: var(--font-code); font-size: 11px; font-weight: 700;
+        }
+        
+        .tl-content { flex-grow: 1; padding-left: 32px; }
+        
+        .phase-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;}
+        .phase-num { font-family: var(--font-code); font-size: 14px; font-weight: 600; color: var(--gold-primary); }
+        .phase-title { font-family: var(--font-heading); font-size: 32px; font-weight: 600; color: var(--text-heading); }
+        .phase-duration { background: var(--gold-pale); color: var(--gold-deep); font-family: var(--font-code); font-size: 11px; padding: 6px 12px; border-radius: 100px; border: 1px solid var(--gold-light);}
+        
+        .phase-intro { font-size: 18px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 32px; font-style: italic; border-left: 3px solid var(--border-med); padding-left: 20px;}
+        
+        .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        
+        .phase-list-title { font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--text-heading); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .happens-list { list-style: none; }
+        .happens-list li { position: relative; padding-left: 20px; margin-bottom: 12px; font-size: 15px; color: var(--text-body); }
+        .happens-list li::before { content: '•'; position: absolute; left: 0; color: var(--gold-primary); font-size: 20px; line-height: 0.9;}
+        
+        .deliver-list { list-style: none; }
+        .deliver-list li { position: relative; padding-left: 24px; margin-bottom: 12px; font-size: 15px; color: var(--text-heading); font-weight: 500; }
+        .deliver-list li::before { content: '✓'; position: absolute; left: 0; color: var(--gold-primary); }
+        
+        .sprint-box {
+            background: var(--off-white); border: 1px solid var(--border-subtle); border-radius: 8px;
+            padding: 24px; margin-top: 32px;
+        }
+        .sprint-title { font-family: var(--font-code); font-size: 13px; font-weight: 600; color: var(--gold-primary); margin-bottom: 16px; text-transform: uppercase; }
+        .sprint-item { margin-bottom: 16px; border-bottom: 1px solid rgba(201,168,76,0.1); padding-bottom: 16px; }
+        .sprint-item:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+        .sprint-item strong { color: var(--text-heading); font-weight: 600; margin-right: 8px;}
+        .sprint-item span { color: var(--text-secondary); font-size: 14px; }
+
+        .phase-outro { margin-top: 32px; padding: 24px; background: rgba(201,168,76,0.03); border-radius: 8px; font-size: 15px; color: var(--text-secondary); }
+
+        /* Tools Section */
+        .tools-section { background: var(--off-white); padding: 120px 0; border-top: 1px solid rgba(201,168,76,0.08); }
+        .tools-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; max-width: var(--container-width); margin: 64px auto 0; padding: 0 48px; }
+        .tool-col { display: flex; flex-direction: column; gap: 16px; }
+        .tool-phase { font-family: var(--font-code); font-size: 11px; font-weight: 600; color: var(--gold-primary); text-transform: uppercase; border-bottom: 1px solid var(--border-med); padding-bottom: 12px; margin-bottom: 8px;}
+        .tool-item { font-size: 14px; color: var(--text-body); font-weight: 500; background: var(--white); padding: 10px 16px; border-radius: 6px; border: 1px solid var(--border-subtle); text-align: center; transition: all 0.3s; }
+        .tool-item:hover { border-color: var(--gold-primary); color: var(--gold-primary); transform: translateY(-2px); }
+
+        /* Communication Section */
+        .comm-section { background: var(--white); }
+        .comm-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .comm-title { font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: var(--text-heading); margin-bottom: 12px; }
+        .comm-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* FAQ */
+        .faq-section { background: var(--off-white); }
+        .faq-container { max-width: 800px; margin: 0 auto; margin-top: 48px; }
+        .faq-item { border-bottom: 1px solid var(--border-subtle); }
+        .faq-item:first-child { border-top: 1px solid var(--border-subtle); }
+        .faq-q {
+            padding: 28px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-family: var(--font-heading); font-size: 19px; font-weight: 600; color: var(--text-heading); transition: color 0.3s;
+        }
+        .faq-q:hover { color: var(--gold-primary); }
+        .faq-icon { color: var(--gold-primary); font-size: 24px; transition: transform 0.4s var(--easing); font-weight: 300; display: inline-block; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+        .faq-a-wrapper { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s var(--easing); }
+        .faq-item.active .faq-a-wrapper { grid-template-rows: 1fr; }
+        .faq-a { overflow: hidden; }
+        .faq-a-inner { padding-bottom: 28px; color: var(--text-secondary); font-size: 16px; line-height: 1.7; }
+
+        /* CTA Banner */
+        .cta-banner { padding: 120px 48px; background: linear-gradient(135deg, #F5F1E8 0%, rgba(201,168,76,0.06) 50%, #F5F1E8 100%); text-align: center; position: relative; overflow: hidden; }
+        .cta-decor-1 { position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.06); pointer-events: none; }
+        .cta-decor-2 { position: absolute; bottom: -50px; left: -50px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.06); pointer-events: none; }
+        .cta-h2 { font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: var(--text-heading); margin-top: 16px; margin-bottom: 32px; position: relative; z-index: 2; }
+        
+        /* Footer */
+        .footer { background: var(--off-white); border-top: 1px solid rgba(201,168,76,0.15); padding: 80px 48px 36px; }
+        .foot-top { max-width: var(--container-width); margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; gap: 40px; }
+        .foot-desc { font-size: 14px; font-weight: 300; color: var(--text-muted); margin-top: 16px; max-width: 260px; }
+        .socials { display: flex; gap: 12px; margin-top: 24px; }
+        .social-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); transition: all 0.3s; }
+        .social-btn svg { width: 15px; height: 15px; fill: currentColor; }
+        .social-btn:hover { background: var(--gold-primary); color: var(--white); border-color: var(--gold-primary); transform: translateY(-2px); }
+        .foot-col-title { font-size: 10px; font-weight: 600; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        .foot-links li { margin-bottom: 8px; }
+        .foot-links a { font-size: 14px; font-weight: 300; color: var(--text-secondary); transition: 0.3s; line-height: 2.2; }
+        .foot-links a:hover, .foot-links a.active { color: var(--gold-primary); }
+        .foot-links a.active { font-weight: 500; }
+        .foot-bottom { max-width: var(--container-width); margin: 48px auto 0; padding-top: 24px; border-top: 1px solid rgba(201,168,76,0.1); display: flex; justify-content: space-between; font-size: 12px; font-weight: 300; color: var(--text-muted); }
+        .foot-legal { display: flex; gap: 24px; }
+        .foot-legal a:hover { color: var(--gold-primary); }
+
+        /* ==========================================================================
+           MEDIA QUERIES
+           ========================================================================== */
+        @media (max-width: 1199px) {
+            .nav-links { gap: 24px; }
+            .tools-grid { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+            .comm-grid { grid-template-columns: repeat(2, 1fr); }
+            .foot-top { grid-template-columns: repeat(2, 1fr); }
+            .foot-col-brand { grid-column: span 2; margin-bottom: 20px; }
+        }
+
+        @media (max-width: 991px) {
+            .phase-grid { grid-template-columns: 1fr; gap: 24px; }
+            .metric-divider:nth-child(even) { display: none; }
+        }
+
+        @media (max-width: 767px) {
+            section { padding: 80px 0; }
+            .container { padding: 0 20px; }
+            .nav-container { padding: 0 20px; }
+            .navbar.scrolled { height: 68px; }
+            .nav-links, .nav-cta { display: none; }
+            .menu-toggle { display: flex; }
+            .page-hero { padding: 0 20px; min-height: auto; padding-top: 120px; padding-bottom: 80px;}
+            
+            .metrics-grid { gap: 40px 20px; }
+            .metric-col { flex: 0 0 40%; }
+            .metric-divider { display: none; }
+            .metric-num { font-size: 36px; }
+            
+            .tl-axis { left: 16px; }
+            .tl-node-wrap { width: 32px; padding-top: 0; }
+            .tl-node { width: 28px; height: 28px; border-width: 4px; font-size: 10px; }
+            .tl-content { padding-left: 20px; padding-top: 0; }
+            .phase-title { font-size: 24px; }
+            .tech-card { padding: 24px; }
+            
+            .tools-grid { grid-template-columns: repeat(2, 1fr); padding: 0 20px; }
+            .comm-grid { grid-template-columns: 1fr; }
+            
+            .foot-top { grid-template-columns: 1fr; }
+            .foot-col-brand { grid-column: span 1; }
+            .foot-bottom { flex-direction: column; gap: 16px; align-items: center; text-align: center;}
+            .cta-banner { padding: 80px 20px; }
+        }
+
+        /* Hardware Acceleration */
+        .reveal, .cursor-dot, .cursor-ring, .scroll-progress { transform: translateZ(0); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="progressBar"></div>
+
+    <!-- Custom Cursor (Desktop) -->
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="mouse-spotlight" id="spotlight"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-logo hover-trigger">
+                <span class="brand-name">OYDA</span>
+                <span class="brand-tagline">Own Your Digital Application</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link hover-trigger">Home</a></li>
+                <li><a href="services.html" class="nav-link hover-trigger">Services</a></li>
+                <li><a href="portfolio.html" class="nav-link hover-trigger">Work</a></li>
+                <li><a href="process.html" class="nav-link active hover-trigger">Process</a></li>
+                <li><a href="about.html" class="nav-link hover-trigger">About</a></li>
+                <li><a href="blog.html" class="nav-link hover-trigger">Blog</a></li>
+                <li><a href="contact.html" class="nav-link hover-trigger">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="nav-cta hover-trigger">Start a Project</a>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-links">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="services.html" class="mobile-link">Services</a>
+            <a href="portfolio.html" class="mobile-link">Our Work</a>
+            <a href="process.html" class="mobile-link active">Process</a>
+            <a href="about.html" class="mobile-link">About</a>
+            <a href="blog.html" class="mobile-link">Blog</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+        </div>
+        <a href="contact.html" class="btn-primary">Start a Project</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="page-hero bg-grid">
+        <div class="tech-badge" style="top: 20%; left: 10%; animation-delay: 0s">&lt;/&gt;</div>
+        <div class="tech-badge" style="top: 70%; right: 15%; animation-delay: 1.5s">API</div>
+        <div class="tech-badge" style="top: 30%; right: 8%; animation-delay: 0.7s">npm</div>
+        <div class="tech-badge" style="bottom: 15%; left: 20%; animation-delay: 2s">{}</div>
+        
+        <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+            <div class="breadcrumb reveal">
+                <a href="index.html" class="hover-trigger">Home</a>
+                <span class="sep">/</span>
+                <span class="current">Our Process</span>
+            </div>
+            
+            <div class="label decorated reveal" style="transition-delay: 0.1s">How We Work</div>
+            
+            <h1 class="hero-title reveal" style="transition-delay: 0.2s">
+                A Proven Path From Vision to Reality
+            </h1>
+            
+            <p class="subtitle reveal" style="transition-delay: 0.3s">
+                Six meticulous phases, refined across 50+ projects. No shortcuts, no surprises — just consistent, world-class delivery.
+            </p>
+        </div>
+    </section>
+
+    <!-- Metrics / Numbers -->
+    <section class="metrics-section" id="metrics">
+        <div class="metrics-grid reveal">
+            <div class="metric-col">
+                <div class="metric-num"><span class="counter" data-target="6">0</span></div>
+                <div class="metric-label">Phases</div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-col">
+                <div class="metric-num"><span class="counter" data-target="50">0</span><span>+</span></div>
+                <div class="metric-label">Projects Refined</div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-col">
+                <div class="metric-num"><span class="counter" data-target="100">0</span><span>%</span></div>
+                <div class="metric-label">On-Time Record</div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-col">
+                <div class="metric-num"><span class="counter" data-target="14">0</span></div>
+                <div class="metric-label">Avg Days to MVP</div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-col">
+                <div class="metric-num"><span class="counter" data-target="98">0</span><span>%</span></div>
+                <div class="metric-label">Client Satisfaction</div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-col">
+                <div class="metric-num">2-Week</div>
+                <div class="metric-label">Sprint Cycles</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="process-detail-section">
+        <div class="container">
+            <div class="timeline-wrap">
+                <div class="tl-axis"></div>
+
+                <!-- Phase 1 -->
+                <div class="tl-item reveal">
+                    <div class="tl-node-wrap"><div class="tl-node">01</div></div>
+                    <div class="tl-content tech-card">
+                        <div class="phase-header">
+                            <span class="phase-num">PHASE 01</span>
+                            <h2 class="phase-title">Discovery & Strategy</h2>
+                            <span class="phase-duration">Week 1-2</span>
+                        </div>
+                        <div class="phase-intro">"Every empire starts with intelligence. This phase is the foundation everything else is built upon. We don't start with assumptions — we start with questions."</div>
+                        
+                        <div class="phase-grid">
+                            <div>
+                                <div class="phase-list-title">What Happens</div>
+                                <ul class="happens-list">
+                                    <li>2-3 hour discovery workshop (video call or in-person)</li>
+                                    <li>Deep business model analysis</li>
+                                    <li>Target audience research & persona development</li>
+                                    <li>Competitive landscape mapping (5-10 competitors analyzed)</li>
+                                    <li>SWOT analysis for digital presence</li>
+                                    <li>Goal setting with measurable KPIs</li>
+                                    <li>Technology feasibility assessment</li>
+                                    <li>Budget alignment and timeline planning</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="phase-list-title">Deliverables</div>
+                                <ul class="deliver-list">
+                                    <li>Discovery Report (20-30 pages)</li>
+                                    <li>Competitive Analysis Document</li>
+                                    <li>User Personas (3-5 detailed personas)</li>
+                                    <li>Project Brief & Scope Document</li>
+                                    <li>Technical Requirements Specification</li>
+                                    <li>Detailed Fixed-Price Proposal</li>
+                                    <li>Project Timeline with Milestones</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="phase-outro">"At the end of Discovery, you'll have absolute clarity on what we're building, why we're building it, how long it will take, and exactly what it will cost. No ambiguity."</div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="tl-item reveal">
+                    <div class="tl-node-wrap"><div class="tl-node">02</div></div>
+                    <div class="tl-content tech-card">
+                        <div class="phase-header">
+                            <span class="phase-num">PHASE 02</span>
+                            <h2 class="phase-title">Architecture & Planning</h2>
+                            <span class="phase-duration">Week 2-3</span>
+                        </div>
+                        <div class="phase-intro">"With strategy defined, our architects translate vision into technical blueprints. Every system, every database table, every API endpoint is planned before development begins."</div>
+                        
+                        <div class="phase-grid">
+                            <div>
+                                <div class="phase-list-title">What Happens</div>
+                                <ul class="happens-list">
+                                    <li>System architecture design</li>
+                                    <li>Database schema design</li>
+                                    <li>API contract definition (OpenAPI/Swagger specs)</li>
+                                    <li>Technology stack finalization with justification</li>
+                                    <li>Third-party service evaluation and selection</li>
+                                    <li>User journey mapping (every screen, every flow)</li>
+                                    <li>Information architecture</li>
+                                    <li>Security architecture planning</li>
+                                    <li>Deployment and hosting strategy</li>
+                                    <li>Sprint planning and task breakdown</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="phase-list-title">Deliverables</div>
+                                <ul class="deliver-list">
+                                    <li>System Architecture Diagram</li>
+                                    <li>Database Schema Design</li>
+                                    <li>API Documentation (Draft)</li>
+                                    <li>User Flow Diagrams</li>
+                                    <li>Information Architecture Map</li>
+                                    <li>Technology Decision Log</li>
+                                    <li>Sprint Plan (all sprints mapped)</li>
+                                    <li>Risk Assessment & Mitigation Plan</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="tl-item reveal">
+                    <div class="tl-node-wrap"><div class="tl-node">03</div></div>
+                    <div class="tl-content tech-card">
+                        <div class="phase-header">
+                            <span class="phase-num">PHASE 03</span>
+                            <h2 class="phase-title">Design & Prototyping</h2>
+                            <span class="phase-duration">Week 3-5</span>
+                        </div>
+                        <div class="phase-intro">"Our designers transform architecture into experiences. You'll see, touch, and interact with your product before a single line of code is written."</div>
+                        
+                        <div class="phase-grid">
+                            <div>
+                                <div class="phase-list-title">What Happens</div>
+                                <ul class="happens-list">
+                                    <li>Moodboard and visual direction exploration</li>
+                                    <li>Low-fidelity wireframes (every screen)</li>
+                                    <li>Client review & wireframe sign-off</li>
+                                    <li>High-fidelity UI design (pixel-perfect)</li>
+                                    <li>Interactive prototype (clickable, realistic)</li>
+                                    <li>Usability testing with target users (5-8 testers)</li>
+                                    <li>Design iteration based on feedback</li>
+                                    <li>Design system creation (components, tokens, guidelines)</li>
+                                    <li>Responsive design variants (desktop, tablet, mobile)</li>
+                                    <li>Motion design & micro-interaction specs</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="phase-list-title">Deliverables</div>
+                                <ul class="deliver-list">
+                                    <li>Wireframes (all screens)</li>
+                                    <li>High-Fidelity Designs (all screens, all breakpoints)</li>
+                                    <li>Interactive Prototype (Figma)</li>
+                                    <li>Design System (components, colors, typography, spacing)</li>
+                                    <li>Usability Test Report</li>
+                                    <li>Motion Design Specifications</li>
+                                    <li>Asset Library (icons, illustrations)</li>
+                                    <li>Design Sign-Off Document</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="tl-item reveal">
+                    <div class="tl-node-wrap"><div class="tl-node">04</div></div>
+                    <div class="tl-content tech-card">
+                        <div class="phase-header">
+                            <span class="phase-num">PHASE 04</span>
+                            <h2 class="phase-title">Development & Engineering</h2>
+                            <span class="phase-duration">Week 5-10</span>
+                        </div>
+                        <div class="phase-intro">"The largest phase — where designs become functional reality. Our full-stack team builds in structured two-week sprints with live demos after every sprint."</div>
+                        
+                        <div class="phase-grid">
+                            <div>
+                                <div class="phase-list-title">What Happens</div>
+                                <ul class="happens-list">
+                                    <li>Development environment setup</li>
+                                    <li>Frontend development (responsive, accessible)</li>
+                                    <li>Backend development (APIs, business logic)</li>
+                                    <li>Database implementation</li>
+                                    <li>Authentication & authorization systems</li>
+                                    <li>Third-party API integrations</li>
+                                    <li>Real-time features (if applicable)</li>
+                                    <li>Admin panel / dashboard development</li>
+                                    <li>Email notification systems</li>
+                                    <li>Payment integration (if applicable)</li>
+                                    <li>Sprint demos every 2 weeks (live, recorded)</li>
+                                    <li>Code reviews (every pull request)</li>
+                                    <li>Continuous Integration setup</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="phase-list-title">Deliverables</div>
+                                <ul class="deliver-list">
+                                    <li>Fully Functional Application</li>
+                                    <li>Clean, Documented Source Code</li>
+                                    <li>API Documentation (Final)</li>
+                                    <li>Admin Panel / CMS</li>
+                                    <li>Sprint Demo Recordings (3 sessions)</li>
+                                    <li>Deployment-Ready Build</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="sprint-box">
+                            <div class="sprint-title">Typical Sprint Structure</div>
+                            <div class="sprint-item">
+                                <strong>Sprint 1 (Week 5-6):</strong> <span>Core infrastructure, authentication, base UI components</span>
+                            </div>
+                            <div class="sprint-item">
+                                <strong>Sprint 2 (Week 7-8):</strong> <span>Primary features, main user flows, API integrations</span>
+                            </div>
+                            <div class="sprint-item">
+                                <strong>Sprint 3 (Week 9-10):</strong> <span>Secondary features, admin panel, optimization, polish</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5 -->
+                <div class="tl-item reveal">
+                    <div class="tl-node-wrap"><div class="tl-node">05</div></div>
+                    <div class="tl-content tech-card">
+                        <div class="phase-header">
+                            <span class="phase-num">PHASE 05</span>
+                            <h2 class="phase-title">Testing & QA</h2>
+                            <span class="phase-duration">Week 10-11</span>
+                        </div>
+                        <div class="phase-intro">"Quality is not a phase — it's embedded in everything we do. But this dedicated phase is where we stress-test every edge case."</div>
+                        
+                        <div class="phase-grid">
+                            <div>
+                                <div class="phase-list-title">What Happens</div>
+                                <ul class="happens-list">
+                                    <li>Unit testing (90%+ code coverage target)</li>
+                                    <li>Integration testing</li>
+                                    <li>End-to-end testing (automated with Cypress/Playwright)</li>
+                                    <li>Cross-browser testing (Chrome, Firefox, Safari, Edge)</li>
+                                    <li>Device testing (30+ real devices)</li>
+                                    <li>Performance testing (load times, Core Web Vitals)</li>
+                                    <li>Security audit (OWASP Top 10 checks)</li>
+                                    <li>Accessibility audit (WCAG 2.1 AA compliance)</li>
+                                    <li>SEO technical audit</li>
+                                    <li>User Acceptance Testing (UAT) with client team</li>
+                                    <li>Bug triage and resolution</li>
+                                    <li>Performance optimization sprint</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="phase-list-title">Deliverables</div>
+                                <ul class="deliver-list">
+                                    <li>Test Report (all categories)</li>
+                                    <li>Performance Benchmark Report</li>
+                                    <li>Security Audit Report</li>
+                                    <li>Accessibility Compliance Report</li>
+                                    <li>Bug Resolution Log</li>
+                                    <li>UAT Sign-Off Document</li>
+                                    <li>Production-Ready Application</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 6 -->
+                <div class="tl-item reveal">
+                    <div class="tl-node-wrap"><div class="tl-node">06</div></div>
+                    <div class="tl-content tech-card">
+                        <div class="phase-header">
+                            <span class="phase-num">PHASE 06</span>
+                            <h2 class="phase-title">Launch & Continuous Growth</h2>
+                            <span class="phase-duration">Week 11+</span>
+                        </div>
+                        <div class="phase-intro">"Launch Day Is Just the Beginning. We don't throw it over the wall and disappear. We handle deployment, monitor performance, and optimize continuously."</div>
+                        
+                        <div class="phase-grid">
+                            <div>
+                                <div class="phase-list-title">What Happens</div>
+                                <ul class="happens-list">
+                                    <li>Production environment setup</li>
+                                    <li>DNS configuration & SSL certificates</li>
+                                    <li>CDN setup & caching optimization</li>
+                                    <li>Database migration to production</li>
+                                    <li>Monitoring & alerting setup (uptime, errors, performance)</li>
+                                    <li>Analytics integration (GA4, Mixpanel, Hotjar)</li>
+                                    <li>Go-live deployment (zero-downtime strategy)</li>
+                                    <li>Post-launch monitoring (72-hour intensive watch)</li>
+                                    <li>User onboarding & training session</li>
+                                    <li>30-day post-launch support (included free)</li>
+                                    <li>Monthly performance reports (for retainer clients)</li>
+                                    <li>Continuous optimization recommendations</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="phase-list-title">Deliverables</div>
+                                <ul class="deliver-list">
+                                    <li>Live, Deployed Application</li>
+                                    <li>Deployment Documentation</li>
+                                    <li>Monitoring Dashboard Access</li>
+                                    <li>Analytics Dashboard Access</li>
+                                    <li>Training Session Recording</li>
+                                    <li>Complete Source Code Handover</li>
+                                    <li>All Design Files Handover</li>
+                                    <li>30-Day Support Coverage</li>
+                                    <li>Ongoing Growth Recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section bg-grid">
+        <div class="section-header center reveal">
+            <div class="label">Our Stack</div>
+            <h2 class="h2" style="font-size: 32px;">Tools We Use in Each Phase</h2>
+        </div>
+        <div class="tools-grid reveal">
+            <div class="tool-col">
+                <div class="tool-phase">Discovery</div>
+                <div class="tool-item hover-trigger">Notion</div>
+                <div class="tool-item hover-trigger">Miro</div>
+                <div class="tool-item hover-trigger">Google Workspace</div>
+                <div class="tool-item hover-trigger">Zoom</div>
+            </div>
+            <div class="tool-col">
+                <div class="tool-phase">Planning</div>
+                <div class="tool-item hover-trigger">Jira</div>
+                <div class="tool-item hover-trigger">Confluence</div>
+                <div class="tool-item hover-trigger">Draw.io</div>
+                <div class="tool-item hover-trigger">Swagger</div>
+            </div>
+            <div class="tool-col">
+                <div class="tool-phase">Design</div>
+                <div class="tool-item hover-trigger">Figma</div>
+                <div class="tool-item hover-trigger">Framer</div>
+                <div class="tool-item hover-trigger">Maze</div>
+                <div class="tool-item hover-trigger">Adobe Suite</div>
+            </div>
+            <div class="tool-col">
+                <div class="tool-phase">Development</div>
+                <div class="tool-item hover-trigger">VS Code</div>
+                <div class="tool-item hover-trigger">GitHub</div>
+                <div class="tool-item hover-trigger">Docker</div>
+                <div class="tool-item hover-trigger">Postman</div>
+            </div>
+            <div class="tool-col">
+                <div class="tool-phase">Testing</div>
+                <div class="tool-item hover-trigger">Cypress</div>
+                <div class="tool-item hover-trigger">Jest</div>
+                <div class="tool-item hover-trigger">Lighthouse</div>
+                <div class="tool-item hover-trigger">BrowserStack</div>
+            </div>
+            <div class="tool-col">
+                <div class="tool-phase">Launch</div>
+                <div class="tool-item hover-trigger">AWS</div>
+                <div class="tool-item hover-trigger">Vercel</div>
+                <div class="tool-item hover-trigger">Datadog</div>
+                <div class="tool-item hover-trigger">Google Analytics</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Communication Section -->
+    <section class="comm-section">
+        <div class="container">
+            <div class="section-header center reveal">
+                <h2 class="h2">How We Keep You in the Loop</h2>
+            </div>
+            <div class="comm-grid">
+                <div class="tech-card comm-card reveal hover-trigger">
+                    <h3 class="comm-title">Weekly Updates</h3>
+                    <p class="comm-desc">Every Friday you receive a detailed progress report with what was completed, what's next, and any blockers. No surprises.</p>
+                </div>
+                <div class="tech-card comm-card reveal hover-trigger" style="transition-delay: 0.1s">
+                    <h3 class="comm-title">Sprint Demos</h3>
+                    <p class="comm-desc">Every two weeks, a live demo where you see real working features. Ask questions, give feedback, steer direction.</p>
+                </div>
+                <div class="tech-card comm-card reveal hover-trigger" style="transition-delay: 0.2s">
+                    <h3 class="comm-title">Shared Dashboard</h3>
+                    <p class="comm-desc">Real-time project board access (Jira/Notion). See every task, every status, every timeline. Complete visibility.</p>
+                </div>
+                <div class="tech-card comm-card reveal hover-trigger" style="transition-delay: 0.3s">
+                    <h3 class="comm-title">Direct Access</h3>
+                    <p class="comm-desc">No layers of account managers. You talk directly to the people building your product — your designer, your developer, your project manager.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="container" style="max-width: 800px;">
+            <div class="section-header center reveal">
+                <h2 class="h2" style="font-size: 40px;">Process Questions</h2>
+                <p class="subtitle">Clarity on how we collaborate</p>
+            </div>
+
+            <div class="faq-container reveal">
+                <div class="faq-item hover-trigger">
+                    <div class="faq-q">
+                        <span>Can the process be shortened?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-a-wrapper">
+                        <div class="faq-a">
+                            <div class="faq-a-inner">
+                                Yes, for smaller projects we can compress phases. An MVP can be delivered in as few as 4 weeks depending on the complexity of features and your availability for rapid feedback.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item hover-trigger">
+                    <div class="faq-q">
+                        <span>What if I want to change requirements mid-project?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-a-wrapper">
+                        <div class="faq-a">
+                            <div class="faq-a-inner">
+                                We build flexibility into every sprint. Minor scope changes are accommodated within the current sprint. For larger feature requests, we evaluate the impact on timeline and budget, then schedule them into future sprints based on your priority.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item hover-trigger">
+                    <div class="faq-q">
+                        <span>How involved do I need to be?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-a-wrapper">
+                        <div class="faq-a">
+                            <div class="faq-a-inner">
+                                We need about 2-3 hours per week of your time for feedback sessions, approvals, and sprint demos. Our goal is to take the heavy lifting off your plate while ensuring you remain in total control of the direction.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item hover-trigger">
+                    <div class="faq-q">
+                        <span>What if I'm not happy with the design?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-a-wrapper">
+                        <div class="faq-a">
+                            <div class="faq-a-inner">
+                                Our design phase includes unlimited revisions until you're 100% satisfied. We don't move to development until you've formally signed off on every single screen and prototype flow.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item hover-trigger">
+                    <div class="faq-q">
+                        <span>Do you assign a dedicated team?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-a-wrapper">
+                        <div class="faq-a">
+                            <div class="faq-a-inner">
+                                Yes. You get a fixed, dedicated team for the duration of your project: a project manager, a lead designer, and 1-3 developers depending on the scope. They become an extension of your own business.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item hover-trigger">
+                    <div class="faq-q">
+                        <span>What's included in the 30-day post-launch support?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-a-wrapper">
+                        <div class="faq-a">
+                            <div class="faq-a-inner">
+                                Bug fixes, minor content changes, server performance monitoring, active uptime tracking, and up to 10 hours of additional development work to polish features based on real user feedback.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Banner -->
+    <section class="cta-banner">
+        <div class="cta-decor-1"></div>
+        <div class="cta-decor-2"></div>
+        <div class="container reveal">
+            <div class="label">Let's Build Together</div>
+            <h2 class="cta-h2">Ready to Start Phase 1?</h2>
+            <a href="contact.html" class="btn-primary hover-trigger" style="padding: 18px 48px;">Book Discovery Call</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="foot-top">
+            <div class="foot-col-brand">
+                <a href="index.html" class="brand-logo hover-trigger">
+                    <span class="brand-name">OYDA</span>
+                    <span class="brand-tagline">Own Your Digital Application</span>
+                </a>
+                <p class="foot-desc">Premium technology agency crafting digital empires for ambitious businesses worldwide.</p>
+                <div class="socials">
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                </div>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Services</div>
+                <ul class="foot-links">
+                    <li><a href="services.html" class="hover-trigger">Web Development</a></li>
+                    <li><a href="services.html" class="hover-trigger">Mobile Apps</a></li>
+                    <li><a href="services.html" class="hover-trigger">AI & Automation</a></li>
+                    <li><a href="services.html" class="hover-trigger">Digital Marketing</a></li>
+                    <li><a href="services.html" class="hover-trigger">UI/UX Design</a></li>
+                    <li><a href="services.html" class="hover-trigger">Cloud Solutions</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Company</div>
+                <ul class="foot-links">
+                    <li><a href="about.html" class="hover-trigger">About Us</a></li>
+                    <li><a href="process.html" class="active hover-trigger">Our Process</a></li>
+                    <li><a href="portfolio.html" class="hover-trigger">Portfolio</a></li>
+                    <li><a href="careers.html" class="hover-trigger">Careers</a></li>
+                    <li><a href="blog.html" class="hover-trigger">Blog</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Resources</div>
+                <ul class="foot-links">
+                    <li><a href="#" class="hover-trigger">Documentation</a></li>
+                    <li><a href="#" class="hover-trigger">Support Center</a></li>
+                    <li><a href="#" class="hover-trigger">Style Guide</a></li>
+                    <li><a href="#" class="hover-trigger">API Reference</a></li>
+                    <li><a href="#" class="hover-trigger">Open Source</a></li>
+                    <li><a href="#" class="hover-trigger">Status Page</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Contact</div>
+                <ul class="foot-links">
+                    <li><a href="mailto:hello@oyda.agency" class="hover-trigger" style="color: var(--gold-primary);">hello@oyda.agency</a></li>
+                    <li><a href="#" class="hover-trigger">+971 (0) 000 000</a></li>
+                    <li>Dubai, UAE</li>
+                    <li>Sun – Thu, 9AM – 6PM GST</li>
+                </ul>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <div>© 2025 OYDA. All rights reserved. Engineered in Dubai.</div>
+            <div class="foot-legal">
+                <a href="#" class="hover-trigger">Privacy Policy</a>
+                <a href="#" class="hover-trigger">Terms of Service</a>
+                <a href="#" class="hover-trigger">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Page Load Animation
+            document.body.classList.add('loaded');
+            
+            setTimeout(() => {
+                document.querySelectorAll('.hero-elem, .reveal').forEach(el => {
+                    if(el.classList.contains('hero-title') || el.classList.contains('subtitle') || el.classList.contains('breadcrumb') || el.classList.contains('label')) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            }, 300);
+
+            // 2. Custom Cursor & Spotlight (Desktop Only)
+            const isDesktop = window.innerWidth > 767;
+            if (isDesktop) {
+                const cursorDot = document.getElementById('cursorDot');
+                const cursorRing = document.getElementById('cursorRing');
+                const spotlight = document.getElementById('spotlight');
+                
+                let mouseX = window.innerWidth / 2;
+                let mouseY = window.innerHeight / 2;
+                let ringX = mouseX;
+                let ringY = mouseY;
+                let spotlightX = mouseX;
+                let spotlightY = mouseY;
+                
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    cursorDot.style.left = mouseX + 'px';
+                    cursorDot.style.top = mouseY + 'px';
+                });
+
+                const renderCursor = () => {
+                    ringX += (mouseX - ringX) * 0.15;
+                    ringY += (mouseY - ringY) * 0.15;
+                    cursorRing.style.left = ringX + 'px';
+                    cursorRing.style.top = ringY + 'px';
+                    
+                    spotlightX += (mouseX - spotlightX) * 0.08;
+                    spotlightY += (mouseY - spotlightY) * 0.08;
+                    spotlight.style.left = spotlightX + 'px';
+                    spotlight.style.top = spotlightY + 'px';
+                    
+                    requestAnimationFrame(renderCursor);
+                };
+                renderCursor();
+
+                const hoverSelectors = '.hover-trigger, a, button, .faq-q, .tool-item';
+                document.querySelectorAll(hoverSelectors).forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+                });
+            }
+
+            // 3. Scroll Progress & Navbar
+            const progressBar = document.getElementById('progressBar');
+            const navbar = document.getElementById('navbar');
+            let isScrolling = false;
+
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                        const scrolled = (winScroll / height) * 100;
+                        progressBar.style.width = scrolled + "%";
+                        
+                        if (winScroll > 100) {
+                            navbar.classList.add('scrolled');
+                        } else {
+                            navbar.classList.remove('scrolled');
+                        }
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
+
+            // 4. Mobile Menu Toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            let menuOpen = false;
+
+            menuToggle.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if(menuOpen) {
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                    menuToggle.children[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                    menuToggle.children[1].style.opacity = '0';
+                    menuToggle.children[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                } else {
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                    menuToggle.children[0].style.transform = 'none';
+                    menuToggle.children[1].style.opacity = '1';
+                    menuToggle.children[2].style.transform = 'none';
+                }
+            });
+
+            // 5. Scroll Reveal
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => { revealObserver.observe(el); });
+
+            // 6. Metrics Counter Animation
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counters = entry.target.querySelectorAll('.counter');
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const duration = 2200;
+                            let startTimestamp = null;
+
+                            const step = (timestamp) => {
+                                if (!startTimestamp) startTimestamp = timestamp;
+                                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                                const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                                counter.innerText = Math.floor(easeProgress * target);
+                                
+                                if (progress < 1) {
+                                    window.requestAnimationFrame(step);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            };
+                            window.requestAnimationFrame(step);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            const metricsSection = document.getElementById('metrics');
+            if(metricsSection) counterObserver.observe(metricsSection);
+
+            // 7. FAQ Accordion logic
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-q');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all
+                    faqItems.forEach(faq => faq.classList.remove('active'));
+                    
+                    // Toggle current
+                    if(!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Work | OYDA — Own Your Digital Application</title>
+    <meta name="description" content="Projects that define digital excellence. Explore our portfolio of premium web applications, mobile apps, and AI automation.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           CSS VARIABLES & THEME (MATCHING HOME & SERVICES)
+           ========================================================================== */
+        :root {
+            /* Colors - Neutrals */
+            --white: #FFFFFF;
+            --off-white: #FAFAF7;
+            --warm-white: #F8F6F0;
+            --cream: #F5F1E8;
+            --light-gray: #F0EEEA;
+            
+            /* Colors - Golds/Oranges */
+            --gold-primary: #C9A84C;
+            --gold-bright: #D4AF37;
+            --gold-deep: #A8852A;
+            --orange-amber: #D4890B;
+            --orange-warm: #E8960C;
+            --gold-light: #E8D5A3;
+            --gold-pale: #F0E6C8;
+            --yellow-glow: #F5D060;
+            
+            /* Transparent accents */
+            --gold-shadow: rgba(201,168,76,0.12);
+            --gold-hover: rgba(201,168,76,0.06);
+            --border-subtle: rgba(201,168,76,0.1);
+            --border-med: rgba(201,168,76,0.25);
+
+            /* Colors - Text */
+            --text-heading: #111111;
+            --text-body: #333333;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --text-disabled: #BBBBBB;
+
+            /* Typography */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accent: 'Playfair Display', serif;
+            --font-code: 'JetBrains Mono', monospace;
+
+            /* Utilities */
+            --easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --container-width: 1320px;
+        }
+
+        /* ==========================================================================
+           RESET & BASE
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        body.loaded { opacity: 1; }
+        @media (min-width: 768px) {
+            body { cursor: none; }
+            a, button, input, textarea, summary { cursor: none; }
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img, svg { max-width: 100%; display: block; }
+
+        /* ==========================================================================
+           GLOBAL EFFECTS
+           ========================================================================== */
+        .grain-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9998; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, var(--gold-primary), var(--orange-amber));
+            width: 0%; z-index: 99999; will-change: width;
+        }
+        
+        /* Cursor */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background-color: var(--gold-primary); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 100000; transition: transform 0.2s var(--easing);
+        }
+        .cursor-ring {
+            position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+            border: 1.5px solid var(--gold-primary); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            z-index: 99999; transition: width 0.3s var(--easing), height 0.3s var(--easing);
+            will-change: transform;
+        }
+        .cursor-hover .cursor-dot { transform: translate(-50%, -50%) scale(1.5); }
+        .cursor-hover .cursor-ring { width: 48px; height: 48px; background-color: rgba(201,168,76,0.05); }
+        @media (max-width: 767px) {
+            .cursor-dot, .cursor-ring { display: none; }
+            body, a, button, summary, .filter-btn { cursor: auto !important; }
+        }
+
+        /* Mouse Spotlight */
+        .mouse-spotlight {
+            position: fixed; top: 0; left: 0; width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(201,168,76,0.025) 0%, transparent 70%);
+            border-radius: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 9000; will-change: transform;
+        }
+        @media (max-width: 767px) { .mouse-spotlight { display: none; } }
+
+        /* Backgrounds & Textures */
+        .bg-grid {
+            background-image: radial-gradient(rgba(201,168,76,0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        
+        .tech-badge {
+            position: absolute; font-family: var(--font-code); font-size: 10px;
+            color: var(--gold-primary); background: rgba(240,230,200,0.5);
+            border: 1px solid rgba(201,168,76,0.15); border-radius: 4px;
+            padding: 4px 8px; opacity: 0.15; pointer-events: none; z-index: 1;
+            animation: floatBadge 6s ease-in-out infinite alternate;
+        }
+        @keyframes floatBadge {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+        @media (max-width: 767px) { .tech-badge { display: none; } }
+
+        /* ==========================================================================
+           UTILITIES & LAYOUT
+           ========================================================================== */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 48px; position: relative; z-index: 2; }
+        section { padding: 120px 0; position: relative; }
+        
+        .section-header { margin-bottom: 64px; }
+        .section-header.center { text-align: center; display: flex; flex-direction: column; align-items: center; }
+        
+        .label {
+            font-family: var(--font-body); font-size: 11px; font-weight: 600;
+            color: var(--gold-primary); text-transform: uppercase; letter-spacing: 5px;
+            display: inline-flex; align-items: center; gap: 16px;
+        }
+        .label.decorated::before, .label.decorated::after { content: ''; width: 40px; height: 1px; background: var(--border-med); }
+        
+        .h2 {
+            font-family: var(--font-heading); font-size: clamp(28px, 5vw, 40px); font-weight: 700;
+            color: var(--text-heading); margin-top: 16px; line-height: 1.1;
+        }
+        .subtitle {
+            font-family: var(--font-body); font-size: 18px; font-weight: 400;
+            color: var(--text-secondary); margin-top: 16px; max-width: 680px; line-height: 1.6;
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s var(--easing), transform 0.7s var(--easing);
+            will-change: opacity, transform;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Buttons & Links */
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--gold-primary); color: var(--white);
+            border: 2px solid var(--gold-primary); border-radius: 8px;
+            padding: 16px 40px; font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2.5px; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg); transition: none;
+        }
+        .btn-primary:hover { background: var(--gold-deep); border-color: var(--gold-deep); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.25); }
+        .btn-primary:hover::after { left: 200%; transition: left 0.6s ease; }
+
+        .link-text {
+            font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            color: var(--gold-primary); text-transform: uppercase; letter-spacing: 2px;
+            display: inline-flex; align-items: center; position: relative; padding-bottom: 4px;
+        }
+        .link-text .arrow { margin-left: 6px; transition: transform 0.3s ease; }
+        .link-text::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: var(--gold-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+        }
+        .link-text:hover .arrow { transform: translateX(4px); }
+        .link-text:hover::after { transform: scaleX(1); }
+
+        /* Tag Pill */
+        .tag-pill {
+            font-family: var(--font-code); font-size: 10.5px; font-weight: 500;
+            color: var(--gold-primary); background: var(--gold-pale);
+            border: 1px solid rgba(201,168,76,0.15); border-radius: 100px; padding: 4px 12px;
+            display: inline-block; white-space: nowrap;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed; top: 3px; left: 0; width: 100%; height: 80px;
+            z-index: 9999; transition: all 0.3s ease; background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-subtle); box-shadow: 0 4px 20px rgba(0,0,0,0.04); height: 72px;
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .brand-logo { display: flex; flex-direction: column; }
+        .brand-name { font-family: var(--font-heading); font-weight: 700; font-size: 26px; color: var(--text-heading); letter-spacing: 5px; line-height: 1; }
+        .brand-tagline { font-family: var(--font-body); font-size: 8.5px; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; margin-top: 2px; }
+        .nav-links { display: flex; gap: 36px; }
+        .nav-link {
+            font-family: var(--font-body); font-size: 13px; font-weight: 500;
+            color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px;
+            position: relative; padding-bottom: 6px; transition: color 0.3s ease;
+        }
+        .nav-link:hover { color: var(--gold-primary); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: var(--gold-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+        
+        /* Active State logic (Work) */
+        .nav-link.active { color: var(--gold-primary); }
+        .nav-link.active::before {
+            content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 4px; background: var(--gold-primary); border-radius: 50%;
+        }
+        .nav-link.active::after { display: none; }
+
+        .nav-cta {
+            background: var(--gold-primary); color: var(--white); border: none; border-radius: 6px;
+            padding: 11px 26px; font-family: var(--font-body); font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease;
+        }
+        .nav-cta:hover { background: var(--gold-deep); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,168,76,0.3); }
+
+        /* Mobile Menu */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; z-index: 10000; }
+        .menu-toggle span { width: 24px; height: 2px; background: var(--gold-primary); transition: 0.3s ease; }
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--white);
+            z-index: 9998; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: all; }
+        .mobile-links { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-bottom: 40px; }
+        .mobile-link { font-family: var(--font-heading); font-size: 28px; font-weight: 500; color: var(--text-heading); }
+        .mobile-link.active { color: var(--gold-primary); position: relative; }
+        .mobile-link.active::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 6px; border-radius: 50%; background: var(--gold-primary);
+        }
+
+        /* ==========================================================================
+           PAGE SPECIFIC SECTIONS
+           ========================================================================== */
+
+        /* Hero */
+        .page-hero {
+            height: 65vh; min-height: 550px; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding-top: 80px; background-color: var(--white);
+        }
+        .breadcrumb { font-family: var(--font-body); font-size: 12px; color: var(--text-muted); margin-bottom: 32px; }
+        .breadcrumb a { color: var(--text-muted); transition: color 0.3s; }
+        .breadcrumb a:hover { color: var(--gold-primary); }
+        .breadcrumb .sep { color: #CCCCCC; margin: 0 8px; }
+        .breadcrumb .current { color: var(--text-secondary); }
+        .hero-title {
+            font-family: var(--font-heading); font-weight: 700; font-size: clamp(40px, 6vw, 68px);
+            line-height: 1.06; color: var(--text-heading); margin-top: 16px; margin-bottom: 20px;
+        }
+        .hero-stats {
+            display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px;
+            font-family: var(--font-code); font-size: 13px; color: var(--gold-primary); margin-top: 32px;
+        }
+        .hero-stats .dot { color: var(--border-med); }
+
+        /* Filter Tabs */
+        .filter-section { padding: 60px 48px 0; background: var(--white); }
+        .filter-tabs {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+            max-width: var(--container-width); margin: 0 auto;
+        }
+        .filter-btn {
+            padding: 8px 24px; border-radius: 100px; font-family: var(--font-body); font-size: 13px;
+            font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;
+            border: 1px solid var(--gold-primary); background: transparent; color: var(--gold-primary);
+        }
+        .filter-btn.active { background: var(--gold-primary); color: var(--white); }
+        .filter-btn:hover:not(.active) { background: var(--gold-hover); transform: translateY(-2px); }
+
+        /* Portfolio Grid */
+        .portfolio-section { padding: 48px 48px 140px; background: var(--white); }
+        .portfolio-grid {
+            max-width: var(--container-width); margin: 0 auto;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;
+            grid-auto-flow: dense;
+        }
+
+        /* Portfolio Cards */
+        .port-card {
+            background: var(--white); border: 1px solid var(--border-subtle); border-radius: 16px;
+            overflow: hidden; transition: all 0.4s var(--easing); position: relative;
+            display: flex; flex-direction: column;
+        }
+        /* Reveal animation integration for filtered items */
+        .port-card.anim-out { opacity: 0; transform: translateY(20px); }
+        .port-card.anim-in { opacity: 1; transform: translateY(0); }
+        
+        /* Hover Effect */
+        .port-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 16px; border: 1px solid transparent; transition: border-color 0.4s ease; pointer-events: none; z-index: 10;
+        }
+        .port-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px var(--gold-shadow); border-color: transparent; }
+        .port-card:hover::before { border-color: rgba(201,168,76,0.4); }
+
+        /* Large Card (100% width) */
+        .port-card.large { grid-column: span 2; flex-direction: row; }
+        .port-card.large .port-visual { width: 45%; min-height: 100%; border-right: 1px solid var(--border-subtle); border-bottom: none; }
+        .port-card.large .port-content { width: 55%; }
+        
+        /* Card Internals */
+        .port-visual { height: 260px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border-subtle); }
+        .port-decor { position: absolute; width: 100%; height: 100%; opacity: 0.15; object-fit: cover; }
+        
+        .port-content { padding: 36px; display: flex; flex-direction: column; flex-grow: 1; }
+        .port-cat { font-family: var(--font-code); font-size: 10px; font-weight: 600; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 2px; }
+        .port-title { font-family: var(--font-heading); font-size: 28px; font-weight: 600; color: var(--text-heading); margin-top: 12px; line-height: 1.2; }
+        .port-card:not(.large) .port-title { font-size: 24px; }
+        .port-desc { font-family: var(--font-body); font-size: 15px; color: var(--text-secondary); margin-top: 16px; line-height: 1.7; white-space: pre-line; }
+        
+        .port-results {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px;
+            margin: 24px 0; padding: 24px 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);
+        }
+        .res-val { font-family: var(--font-code); font-size: 24px; font-weight: 700; color: var(--gold-primary); line-height: 1.1; }
+        .res-lbl { font-size: 12.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4; }
+        
+        .port-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+        
+        .port-meta {
+            margin-top: auto; display: flex; justify-content: space-between; align-items: center;
+        }
+        .port-timeline { font-family: var(--font-code); font-size: 12px; color: var(--text-muted); }
+
+        /* Specific Gradient Backgrounds */
+        .bg-grad-1 { background: linear-gradient(135deg, #F5F1E8, #E8D5A3); }
+        .bg-grad-2 { background: linear-gradient(135deg, #F0E6C8, #D4AF3720); }
+        .bg-grad-3 { background: linear-gradient(135deg, #FFF8E7, #C9A84C15); }
+        .bg-grad-4 { background: linear-gradient(135deg, #F8F6F0, #E8D5A3); }
+
+        /* Marquee */
+        .marquee-section { padding: 48px 0; background: var(--off-white); border-top: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); overflow: hidden; text-align: center; }
+        .marquee-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; color: var(--text-disabled); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 28px; }
+        .marquee-wrapper { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+        .marquee-wrapper:hover { animation-duration: 80s; }
+        .marquee-content { display: flex; align-items: center; gap: 48px; padding-right: 48px; white-space: nowrap; }
+        .marquee-item { font-family: var(--font-body); font-size: 15px; font-weight: 500; color: #CCCCCC; display: flex; align-items: center; gap: 48px; }
+        .marquee-dot { color: var(--gold-primary); font-size: 18px; line-height: 0; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Testimonials */
+        .testi-section { background: var(--white); }
+        .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .testi-card { background: var(--white); border: 1px solid rgba(201,168,76,0.1); border-radius: 12px; padding: 40px 32px; position: relative; transition: all 0.4s ease; }
+        .testi-card:hover { border-color: var(--gold-primary); box-shadow: 0 8px 30px var(--gold-shadow); transform: translateY(-4px); }
+        .quote-mark { font-family: var(--font-accent); font-size: 72px; color: rgba(201,168,76,0.1); position: absolute; top: 16px; left: 28px; line-height: 1; }
+        .stars { color: var(--gold-primary); font-size: 14px; margin-bottom: 16px; position: relative; z-index: 2; }
+        .quote-text { font-size: 16px; font-style: italic; color: var(--text-body); margin-bottom: 28px; position: relative; z-index: 2; }
+        .author-box { display: flex; align-items: center; gap: 14px; }
+        .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--gold-pale); border: 1px solid var(--gold-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-accent); font-size: 18px; color: var(--gold-deep); }
+        .author-name { font-weight: 600; font-size: 15px; color: var(--text-heading); }
+        .author-title { font-size: 13px; color: var(--text-muted); }
+
+        /* CTA Banner */
+        .cta-banner { padding: 120px 48px; background: linear-gradient(135deg, #F5F1E8 0%, rgba(201,168,76,0.06) 50%, #F5F1E8 100%); text-align: center; position: relative; overflow: hidden; }
+        .cta-decor-1 { position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.06); pointer-events: none; }
+        .cta-decor-2 { position: absolute; bottom: -50px; left: -50px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.06); pointer-events: none; }
+        .cta-h2 { font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: var(--text-heading); margin-top: 16px; position: relative; z-index: 2; }
+        .cta-sub { font-size: 18px; color: var(--text-secondary); margin-top: 16px; margin-bottom: 32px; position: relative; z-index: 2;}
+        .cta-email { display: block; margin-top: 20px; font-size: 14px; color: var(--text-muted); position: relative; z-index: 2;}
+        .cta-email a { color: var(--gold-primary); }
+
+        /* Footer */
+        .footer { background: var(--off-white); border-top: 1px solid rgba(201,168,76,0.15); padding: 80px 48px 36px; }
+        .foot-top { max-width: var(--container-width); margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; gap: 40px; }
+        .foot-desc { font-size: 14px; font-weight: 300; color: var(--text-muted); margin-top: 16px; max-width: 260px; }
+        .socials { display: flex; gap: 12px; margin-top: 24px; }
+        .social-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); transition: all 0.3s; }
+        .social-btn svg { width: 15px; height: 15px; fill: currentColor; }
+        .social-btn:hover { background: var(--gold-primary); color: var(--white); border-color: var(--gold-primary); transform: translateY(-2px); }
+        .foot-col-title { font-size: 10px; font-weight: 600; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        .foot-links li { margin-bottom: 8px; }
+        .foot-links a { font-size: 14px; font-weight: 300; color: var(--text-secondary); transition: 0.3s; line-height: 2.2; }
+        .foot-links a:hover, .foot-links a.active { color: var(--gold-primary); }
+        .foot-links a.active { font-weight: 500; }
+        .foot-bottom { max-width: var(--container-width); margin: 48px auto 0; padding-top: 24px; border-top: 1px solid rgba(201,168,76,0.1); display: flex; justify-content: space-between; font-size: 12px; font-weight: 300; color: var(--text-muted); }
+        .foot-legal { display: flex; gap: 24px; }
+        .foot-legal a:hover { color: var(--gold-primary); }
+
+        /* ==========================================================================
+           MEDIA QUERIES
+           ========================================================================== */
+        @media (max-width: 1199px) {
+            .nav-links { gap: 24px; }
+            .foot-top { grid-template-columns: repeat(2, 1fr); }
+            .foot-col-brand { grid-column: span 2; margin-bottom: 20px; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .port-card.large { grid-column: span 1; }
+            .testi-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 991px) {
+            .port-card.large { flex-direction: column; }
+            .port-card.large .port-visual { width: 100%; min-height: 240px; border-right: none; border-bottom: 1px solid var(--border-subtle); }
+            .port-card.large .port-content { width: 100%; }
+        }
+
+        @media (max-width: 767px) {
+            section { padding: 80px 0; }
+            .container { padding: 0 20px; }
+            .nav-container { padding: 0 20px; }
+            .navbar.scrolled { height: 68px; }
+            .nav-links, .nav-cta { display: none; }
+            .menu-toggle { display: flex; }
+            .page-hero { padding: 0 20px; min-height: auto; padding-top: 120px; padding-bottom: 80px;}
+            
+            .filter-section { padding: 40px 20px 0; }
+            .filter-tabs { justify-content: flex-start; overflow-x: auto; padding-bottom: 16px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+            .filter-btn { white-space: nowrap; }
+            
+            .portfolio-section { padding: 24px 20px 80px; }
+            .portfolio-grid { gap: 24px; }
+            .port-content { padding: 24px; }
+            .port-results { grid-template-columns: 1fr 1fr; }
+            
+            .foot-top { grid-template-columns: 1fr; }
+            .foot-col-brand { grid-column: span 1; }
+            .foot-bottom { flex-direction: column; gap: 16px; align-items: center; text-align: center;}
+            .cta-banner { padding: 80px 20px; }
+        }
+
+        /* Hardware Acceleration */
+        .reveal, .cursor-dot, .cursor-ring, .scroll-progress, .port-card { transform: translateZ(0); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="progressBar"></div>
+
+    <!-- Custom Cursor (Desktop) -->
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="mouse-spotlight" id="spotlight"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-logo hover-trigger">
+                <span class="brand-name">OYDA</span>
+                <span class="brand-tagline">Own Your Digital Application</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link hover-trigger">Home</a></li>
+                <li><a href="services.html" class="nav-link hover-trigger">Services</a></li>
+                <li><a href="portfolio.html" class="nav-link active hover-trigger">Work</a></li>
+                <li><a href="process.html" class="nav-link hover-trigger">Process</a></li>
+                <li><a href="about.html" class="nav-link hover-trigger">About</a></li>
+                <li><a href="blog.html" class="nav-link hover-trigger">Blog</a></li>
+                <li><a href="contact.html" class="nav-link hover-trigger">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="nav-cta hover-trigger">Start a Project</a>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-links">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="services.html" class="mobile-link">Services</a>
+            <a href="portfolio.html" class="mobile-link active">Our Work</a>
+            <a href="process.html" class="mobile-link">Process</a>
+            <a href="about.html" class="mobile-link">About</a>
+            <a href="blog.html" class="mobile-link">Blog</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+        </div>
+        <a href="contact.html" class="btn-primary">Start a Project</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="page-hero bg-grid">
+        <!-- Floating Badges -->
+        <div class="tech-badge" style="top: 20%; left: 10%; animation-delay: 0s">&lt;/&gt;</div>
+        <div class="tech-badge" style="top: 70%; right: 15%; animation-delay: 1.5s">API</div>
+        <div class="tech-badge" style="top: 30%; right: 8%; animation-delay: 0.7s">npm</div>
+        <div class="tech-badge" style="bottom: 15%; left: 20%; animation-delay: 2s">{}</div>
+        
+        <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+            <div class="breadcrumb reveal">
+                <a href="index.html" class="hover-trigger">Home</a>
+                <span class="sep">/</span>
+                <span class="current">Our Work</span>
+            </div>
+            
+            <div class="label decorated reveal" style="transition-delay: 0.1s">Portfolio</div>
+            
+            <h1 class="hero-title reveal" style="transition-delay: 0.2s">
+                Projects That Define Digital Excellence
+            </h1>
+            
+            <p class="subtitle reveal" style="transition-delay: 0.3s">
+                Real businesses. Real challenges. Real results. Every case study represents a partnership built on trust, executed with precision, and measured by impact.
+            </p>
+            
+            <div class="hero-stats reveal" style="transition-delay: 0.4s">
+                <span>50+ Projects</span>
+                <span class="dot">·</span>
+                <span>30+ Clients</span>
+                <span class="dot">·</span>
+                <span>4 Countries</span>
+                <span class="dot">·</span>
+                <span>3x Avg ROI</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Tabs -->
+    <section class="filter-section">
+        <div class="filter-tabs reveal">
+            <button class="filter-btn active hover-trigger" data-filter="all">All</button>
+            <button class="filter-btn hover-trigger" data-filter="web">Web Apps</button>
+            <button class="filter-btn hover-trigger" data-filter="mobile">Mobile</button>
+            <button class="filter-btn hover-trigger" data-filter="ai">AI & Automation</button>
+            <button class="filter-btn hover-trigger" data-filter="ecommerce">E-Commerce</button>
+            <button class="filter-btn hover-trigger" data-filter="marketing">Marketing</button>
+            <button class="filter-btn hover-trigger" data-filter="branding">Branding</button>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section class="portfolio-section">
+        <div class="portfolio-grid" id="portfolioGrid">
+
+            <!-- PROJECT 1: LARGE CARD -->
+            <div class="port-card large reveal hover-trigger" data-category="web">
+                <div class="port-visual bg-grad-1">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="var(--gold-primary)" stroke-width="0.5"/>
+                        <circle cx="50" cy="50" r="20" fill="none" stroke="var(--gold-primary)" stroke-width="0.5"/>
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="var(--gold-primary)" stroke-width="0.2"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="var(--gold-primary)" stroke-width="0.2"/>
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">Web Application</div>
+                    <h3 class="port-title">Meridian Properties — Luxury Real Estate Platform</h3>
+                    <div class="port-desc">Meridian Properties needed a digital platform worthy of Dubai's most exclusive properties. We engineered an end-to-end real estate marketplace featuring AI-powered property matching that learns buyer preferences, interactive 3D virtual tours rendered in real-time, intelligent mortgage calculators, real-time agent-client messaging, and a CRM dashboard that gives agents complete visibility into their pipeline.
+
+                    The platform handles 50,000+ active listings with sub-second search powered by Elasticsearch, serves 200,000+ monthly visitors without breaking a sweat, and integrates with 12 third-party services including Dubai Land Department, Google Maps, and multiple payment gateways.
+                    
+                    <strong>Challenge:</strong> Legacy website with poor UX, zero mobile optimization, and search functionality that took 8+ seconds to return results.
+                    
+                    <strong>Solution:</strong> Complete rebuild with Next.js, headless CMS, Elasticsearch-powered instant search, and responsive design-first approach.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">340%</div>
+                            <div class="res-lbl">Increase in qualified leads</div>
+                        </div>
+                        <div>
+                            <div class="res-val">2.1s</div>
+                            <div class="res-lbl">Average page load time (from 8.4s)</div>
+                        </div>
+                        <div>
+                            <div class="res-val">180%</div>
+                            <div class="res-lbl">Mobile traffic increase</div>
+                        </div>
+                        <div>
+                            <div class="res-val">45min</div>
+                            <div class="res-lbl">Avg session duration (from 3min)</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">React</span><span class="tag-pill">Next.js</span><span class="tag-pill">Node.js</span><span class="tag-pill">PostgreSQL</span><span class="tag-pill">Elasticsearch</span><span class="tag-pill">Redis</span><span class="tag-pill">AWS</span><span class="tag-pill">Google Maps API</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 14 weeks</span>
+                        <a href="#" class="link-text hover-trigger">Visit Live Site <span class="arrow">→</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 2: MEDIUM CARD -->
+            <div class="port-card reveal hover-trigger" data-category="mobile">
+                <div class="port-visual bg-grad-2">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d="M 0 100 Q 25 50 50 100 T 100 100" fill="none" stroke="var(--gold-primary)" stroke-width="1"/>
+                        <path d="M 0 80 Q 25 30 50 80 T 100 80" fill="none" stroke="var(--gold-primary)" stroke-width="0.5"/>
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">Mobile Application</div>
+                    <h3 class="port-title">Luxe Wellness — Health & Booking App</h3>
+                    <div class="port-desc">A comprehensive wellness booking platform for iOS and Android. Features real-time availability calendars, membership tiers, personalized wellness recommendations via ML, integrated payment processing, push notification reminders, and detailed analytics for business owners.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">50K+</div>
+                            <div class="res-lbl">Downloads in 3 months</div>
+                        </div>
+                        <div>
+                            <div class="res-val">4.8★</div>
+                            <div class="res-lbl">App Store rating</div>
+                        </div>
+                        <div>
+                            <div class="res-val">68%</div>
+                            <div class="res-lbl">Repeat booking rate</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">Flutter</span><span class="tag-pill">Firebase</span><span class="tag-pill">ML Kit</span><span class="tag-pill">Stripe</span><span class="tag-pill">Node.js</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 10 weeks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 3: MEDIUM CARD -->
+            <div class="port-card reveal hover-trigger" data-category="ai">
+                <div class="port-visual bg-grad-3">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <pattern id="hexGrid" width="20" height="34.64" patternUnits="userSpaceOnUse" patternTransform="scale(0.5)">
+                            <path d="M10,0 L20,5.77 L20,17.32 L10,23.09 L0,17.32 L0,5.77 Z M10,34.64 L20,28.87 L20,17.32 L10,23.09 L0,17.32 L0,28.87 Z" fill="none" stroke="var(--gold-primary)" stroke-width="1"/>
+                        </pattern>
+                        <rect width="100" height="100" fill="url(#hexGrid)" />
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">AI Automation</div>
+                    <h3 class="port-title">Al Safa Group — Enterprise AI Chatbot System</h3>
+                    <div class="port-desc">Multi-language conversational AI system deployed across 4 business divisions of a major conglomerate. The chatbot handles 5,000+ conversations daily in Arabic, English, Hindi, and Urdu with 94% automated resolution rate — reducing the support team from 24 agents to 5.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">80%</div>
+                            <div class="res-lbl">Reduction in support costs</div>
+                        </div>
+                        <div>
+                            <div class="res-val">94%</div>
+                            <div class="res-lbl">Automated resolution rate</div>
+                        </div>
+                        <div>
+                            <div class="res-val">5,000+</div>
+                            <div class="res-lbl">Daily conversations handled</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">GPT-4</span><span class="tag-pill">LangChain</span><span class="tag-pill">Python</span><span class="tag-pill">Arabic NLP</span><span class="tag-pill">Pinecone</span><span class="tag-pill">FastAPI</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 8 weeks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 4: LARGE CARD -->
+            <div class="port-card large reveal hover-trigger" data-category="ecommerce">
+                <div class="port-visual bg-grad-4">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <pattern id="diagGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                            <path d="M 0 10 L 10 0 M -1 1 L 1 -1 M 9 11 L 11 9" stroke="var(--gold-primary)" stroke-width="0.5"/>
+                        </pattern>
+                        <rect width="100" height="100" fill="url(#diagGrid)" />
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">E-Commerce</div>
+                    <h3 class="port-title">Crescent Artisan — Premium Online Store</h3>
+                    <div class="port-desc">A luxury e-commerce experience for handcrafted artisanal goods sold across the GCC. Features include AR product previews that let customers visualize items in their space, AI-driven personalized shopping journeys, curated subscription boxes, multi-currency support, and same-day delivery integration across UAE, Saudi Arabia, and Qatar.
+
+                    The custom Shopify Plus theme we built increased average order value by 85% through strategic upselling, cross-selling, and an immersive product storytelling experience that makes each item feel like a luxury unboxing.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">220%</div>
+                            <div class="res-lbl">Revenue growth in 6 months</div>
+                        </div>
+                        <div>
+                            <div class="res-val">85%</div>
+                            <div class="res-lbl">Average order value increase</div>
+                        </div>
+                        <div>
+                            <div class="res-val">$2.4M</div>
+                            <div class="res-lbl">Annual GMV reached</div>
+                        </div>
+                        <div>
+                            <div class="res-val">3.2%</div>
+                            <div class="res-lbl">Cart abandonment rate (industry avg: 69%)</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">Shopify Plus</span><span class="tag-pill">Liquid</span><span class="tag-pill">AR.js</span><span class="tag-pill">Stripe</span><span class="tag-pill">Custom Theme</span><span class="tag-pill">Klaviyo</span><span class="tag-pill">ShipStation</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 12 weeks</span>
+                        <a href="#" class="link-text hover-trigger">Visit Live Site <span class="arrow">→</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 5: MEDIUM CARD -->
+            <div class="port-card reveal hover-trigger" data-category="marketing">
+                <div class="port-visual bg-grad-1">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d="M0,100 L20,80 L40,90 L60,40 L80,50 L100,0" fill="none" stroke="var(--gold-primary)" stroke-width="1.5"/>
+                        <circle cx="60" cy="40" r="2" fill="var(--gold-primary)"/>
+                        <circle cx="100" cy="0" r="3" fill="var(--gold-primary)"/>
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">SEO & Growth Marketing</div>
+                    <h3 class="port-title">Nova Digital — From Page 5 to Position 1</h3>
+                    <div class="port-desc">Comprehensive technical SEO overhaul and content strategy for a B2B SaaS startup. We fixed 847 technical issues, created 120+ pieces of optimized content, built 200+ high-quality backlinks, and implemented schema markup across the entire site. Organic became their #1 revenue channel.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">1,200%</div>
+                            <div class="res-lbl">Organic traffic increase</div>
+                        </div>
+                        <div>
+                            <div class="res-val">47</div>
+                            <div class="res-lbl">Keywords on page 1 (from 0)</div>
+                        </div>
+                        <div>
+                            <div class="res-val">$380K</div>
+                            <div class="res-lbl">Annual revenue from organic</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">Technical SEO</span><span class="tag-pill">Content Strategy</span><span class="tag-pill">Ahrefs</span><span class="tag-pill">Schema Markup</span><span class="tag-pill">Google Analytics</span><span class="tag-pill">Search Console</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 6 months ongoing</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 6: MEDIUM CARD -->
+            <div class="port-card reveal hover-trigger" data-category="branding">
+                <div class="port-visual bg-grad-2">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <circle cx="30" cy="50" r="25" fill="none" stroke="var(--gold-primary)" stroke-width="1"/>
+                        <circle cx="70" cy="50" r="25" fill="none" stroke="var(--gold-primary)" stroke-width="1"/>
+                        <path d="M 50 20 L 50 80" stroke="var(--gold-primary)" stroke-width="0.5"/>
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">Branding & UI/UX</div>
+                    <h3 class="port-title">Horizon Logistics — Complete Brand Overhaul</h3>
+                    <div class="port-desc">Full brand identity redesign and digital platform UI/UX overhaul for a logistics company expanding across the Middle East. New visual identity, website redesign, mobile app UI, vehicle livery, packaging design, and comprehensive brand guidelines document.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">180%</div>
+                            <div class="res-lbl">Brand recognition increase</div>
+                        </div>
+                        <div>
+                            <div class="res-val">25%</div>
+                            <div class="res-lbl">Premium pricing enabled</div>
+                        </div>
+                        <div>
+                            <div class="res-val">3x</div>
+                            <div class="res-lbl">Inbound inquiries</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">Brand Identity</span><span class="tag-pill">Figma</span><span class="tag-pill">Design System</span><span class="tag-pill">Motion Design</span><span class="tag-pill">Print Design</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 8 weeks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 7: MEDIUM CARD -->
+            <div class="port-card reveal hover-trigger" data-category="web">
+                <div class="port-visual bg-grad-3">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <rect x="20" y="20" width="60" height="60" fill="none" stroke="var(--gold-primary)" stroke-width="1"/>
+                        <rect x="30" y="30" width="40" height="40" fill="none" stroke="var(--gold-primary)" stroke-width="1"/>
+                        <rect x="40" y="40" width="20" height="20" fill="var(--gold-primary)" opacity="0.3"/>
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">Web Application</div>
+                    <h3 class="port-title">Zenith AI — SaaS Analytics Dashboard</h3>
+                    <div class="port-desc">A real-time analytics dashboard for an AI startup. Features interactive data visualizations, custom report builders, role-based access control, white-label capabilities, and API integrations with 15+ data sources including Google Analytics, Shopify, and HubSpot.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">500+</div>
+                            <div class="res-lbl">Active users in month 1</div>
+                        </div>
+                        <div>
+                            <div class="res-val">99.9%</div>
+                            <div class="res-lbl">Uptime achieved</div>
+                        </div>
+                        <div>
+                            <div class="res-val">&lt; 200ms</div>
+                            <div class="res-lbl">Dashboard load time</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">React</span><span class="tag-pill">D3.js</span><span class="tag-pill">Node.js</span><span class="tag-pill">PostgreSQL</span><span class="tag-pill">Redis</span><span class="tag-pill">WebSocket</span><span class="tag-pill">AWS</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 16 weeks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 8: MEDIUM CARD -->
+            <div class="port-card reveal hover-trigger" data-category="ai">
+                <div class="port-visual bg-grad-4">
+                    <svg class="port-decor" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d="M 10 50 C 30 10, 70 90, 90 50" fill="none" stroke="var(--gold-primary)" stroke-width="1"/>
+                        <path d="M 10 30 C 30 0, 70 80, 90 30" fill="none" stroke="var(--gold-primary)" stroke-width="0.3"/>
+                        <path d="M 10 70 C 30 30, 70 110, 90 70" fill="none" stroke="var(--gold-primary)" stroke-width="0.3"/>
+                    </svg>
+                </div>
+                <div class="port-content">
+                    <div class="port-cat">AI Automation</div>
+                    <h3 class="port-title">Gulf Insurance — Claims Processing AI</h3>
+                    <div class="port-desc">An AI-powered claims processing system that reads submitted documents, extracts relevant information, validates claims against policy terms, and generates approval recommendations. Reduced average processing time from 5 days to 4 hours.</div>
+                    
+                    <div class="port-results">
+                        <div>
+                            <div class="res-val">96%</div>
+                            <div class="res-lbl">Processing time reduction</div>
+                        </div>
+                        <div>
+                            <div class="res-val">99.2%</div>
+                            <div class="res-lbl">Extraction accuracy</div>
+                        </div>
+                        <div>
+                            <div class="res-val">$1.2M</div>
+                            <div class="res-lbl">Annual savings</div>
+                        </div>
+                    </div>
+
+                    <div class="port-tags">
+                        <span class="tag-pill">Python</span><span class="tag-pill">OCR</span><span class="tag-pill">GPT-4</span><span class="tag-pill">LangChain</span><span class="tag-pill">FastAPI</span><span class="tag-pill">PostgreSQL</span><span class="tag-pill">AWS Lambda</span>
+                    </div>
+
+                    <div class="port-meta">
+                        <span class="port-timeline">Timeline: 10 weeks</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Trusted By Marquee -->
+    <section class="marquee-section">
+        <div class="marquee-label">Trusted by forward-thinking brands</div>
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <div class="marquee-item">TechVenture Co. <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Meridian Properties <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Luxe Wellness Studio <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Al Safa Holdings <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Nova Digital Labs <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Crescent Capital <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Horizon Logistics <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Apex Industries <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Stellar Brands <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Gulf Innovations <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Zenith AI <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Forge Studios <span class="marquee-dot">·</span></div>
+            </div>
+            <!-- Duplicate for seamless loop -->
+            <div class="marquee-content">
+                <div class="marquee-item">TechVenture Co. <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Meridian Properties <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Luxe Wellness Studio <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Al Safa Holdings <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Nova Digital Labs <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Crescent Capital <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Horizon Logistics <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Apex Industries <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Stellar Brands <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Gulf Innovations <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Zenith AI <span class="marquee-dot">·</span></div>
+                <div class="marquee-item">Forge Studios <span class="marquee-dot">·</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testi-section">
+        <div class="container">
+            <div class="section-header center reveal">
+                <div class="label">Testimonials</div>
+                <h2 class="h2">What Our Clients Say</h2>
+                <p class="subtitle">Real partnerships, real impact, real results</p>
+            </div>
+
+            <div class="testi-grid">
+                <div class="testi-card reveal hover-trigger">
+                    <div class="quote-mark">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p class="quote-text">OYDA transformed our entire digital infrastructure. Their technical depth is matched only by their commitment to understanding our business. The platform they built handles 10x our previous traffic with zero downtime. A 340% increase in qualified leads speaks for itself.</p>
+                    <div class="author-box">
+                        <div class="avatar">A</div>
+                        <div class="author-info">
+                            <div class="author-name">Ahmed Al-Rashid</div>
+                            <div class="author-title">CEO, Meridian Properties</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testi-card reveal hover-trigger" style="transition-delay: 0.1s">
+                    <div class="quote-mark">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p class="quote-text">The AI chatbot system OYDA engineered handles 80% of customer queries without human intervention. Response times dropped from hours to seconds. Customer satisfaction is at an all-time high. They didn't just meet expectations — they redefined what we thought was possible.</p>
+                    <div class="author-box">
+                        <div class="avatar">S</div>
+                        <div class="author-info">
+                            <div class="author-name">Sarah Chen</div>
+                            <div class="author-title">Founder, Luxe Wellness Studio</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card reveal hover-trigger" style="transition-delay: 0.2s">
+                    <div class="quote-mark">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p class="quote-text">Working with OYDA felt like having a world-class in-house tech team. Complete transparency, reliable timelines, and genuine investment in our success. Our e-commerce revenue tripled within six months. The ROI has been extraordinary.</p>
+                    <div class="author-box">
+                        <div class="avatar">K</div>
+                        <div class="author-info">
+                            <div class="author-name">Khalid Al-Mansoori</div>
+                            <div class="author-title">Managing Director, Crescent Artisan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Banner -->
+    <section class="cta-banner">
+        <div class="cta-decor-1"></div>
+        <div class="cta-decor-2"></div>
+        <div class="container reveal">
+            <h2 class="cta-h2">Have a Project in Mind?</h2>
+            <p class="cta-sub">Let's discuss how we can deliver similar results for your business</p>
+            <a href="contact.html" class="btn-primary hover-trigger" style="padding: 18px 48px;">Start Your Project</a>
+            <div class="cta-email">or email us at <a href="mailto:hello@oyda.agency" class="hover-trigger">hello@oyda.agency</a></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="foot-top">
+            <div class="foot-col-brand">
+                <a href="index.html" class="brand-logo hover-trigger">
+                    <span class="brand-name">OYDA</span>
+                    <span class="brand-tagline">Own Your Digital Application</span>
+                </a>
+                <p class="foot-desc">Premium technology agency crafting digital empires for ambitious businesses worldwide.</p>
+                <div class="socials">
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    <a href="#" class="social-btn hover-trigger"><svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                </div>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Services</div>
+                <ul class="foot-links">
+                    <li><a href="services.html" class="hover-trigger">Web Development</a></li>
+                    <li><a href="services.html" class="hover-trigger">Mobile Apps</a></li>
+                    <li><a href="services.html" class="hover-trigger">AI & Automation</a></li>
+                    <li><a href="services.html" class="hover-trigger">Digital Marketing</a></li>
+                    <li><a href="services.html" class="hover-trigger">UI/UX Design</a></li>
+                    <li><a href="services.html" class="hover-trigger">Cloud Solutions</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Company</div>
+                <ul class="foot-links">
+                    <li><a href="about.html" class="hover-trigger">About Us</a></li>
+                    <li><a href="process.html" class="hover-trigger">Our Process</a></li>
+                    <li><a href="portfolio.html" class="active hover-trigger">Portfolio</a></li>
+                    <li><a href="careers.html" class="hover-trigger">Careers</a></li>
+                    <li><a href="blog.html" class="hover-trigger">Blog</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Resources</div>
+                <ul class="foot-links">
+                    <li><a href="#" class="hover-trigger">Documentation</a></li>
+                    <li><a href="#" class="hover-trigger">Support Center</a></li>
+                    <li><a href="#" class="hover-trigger">Style Guide</a></li>
+                    <li><a href="#" class="hover-trigger">API Reference</a></li>
+                    <li><a href="#" class="hover-trigger">Open Source</a></li>
+                    <li><a href="#" class="hover-trigger">Status Page</a></li>
+                </ul>
+            </div>
+            <div class="foot-col">
+                <div class="foot-col-title">Contact</div>
+                <ul class="foot-links">
+                    <li><a href="mailto:hello@oyda.agency" class="hover-trigger" style="color: var(--gold-primary);">hello@oyda.agency</a></li>
+                    <li><a href="#" class="hover-trigger">+971 (0) 000 000</a></li>
+                    <li>Dubai, UAE</li>
+                    <li>Sun – Thu, 9AM – 6PM GST</li>
+                </ul>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <div>© 2025 OYDA. All rights reserved. Engineered in Dubai.</div>
+            <div class="foot-legal">
+                <a href="#" class="hover-trigger">Privacy Policy</a>
+                <a href="#" class="hover-trigger">Terms of Service</a>
+                <a href="#" class="hover-trigger">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Page Load Animation
+            document.body.classList.add('loaded');
+            
+            setTimeout(() => {
+                document.querySelectorAll('.hero-elem').forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 300);
+
+            // 2. Custom Cursor & Spotlight (Desktop Only)
+            const isDesktop = window.innerWidth > 767;
+            if (isDesktop) {
+                const cursorDot = document.getElementById('cursorDot');
+                const cursorRing = document.getElementById('cursorRing');
+                const spotlight = document.getElementById('spotlight');
+                
+                let mouseX = window.innerWidth / 2;
+                let mouseY = window.innerHeight / 2;
+                let ringX = mouseX;
+                let ringY = mouseY;
+                let spotlightX = mouseX;
+                let spotlightY = mouseY;
+                
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    cursorDot.style.left = mouseX + 'px';
+                    cursorDot.style.top = mouseY + 'px';
+                });
+
+                const renderCursor = () => {
+                    ringX += (mouseX - ringX) * 0.15;
+                    ringY += (mouseY - ringY) * 0.15;
+                    cursorRing.style.left = ringX + 'px';
+                    cursorRing.style.top = ringY + 'px';
+                    
+                    spotlightX += (mouseX - spotlightX) * 0.08;
+                    spotlightY += (mouseY - spotlightY) * 0.08;
+                    spotlight.style.left = spotlightX + 'px';
+                    spotlight.style.top = spotlightY + 'px';
+                    
+                    requestAnimationFrame(renderCursor);
+                };
+                renderCursor();
+
+                const hoverSelectors = '.hover-trigger, a, button, .filter-btn';
+                document.querySelectorAll(hoverSelectors).forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+                });
+            }
+
+            // 3. Scroll Progress & Navbar
+            const progressBar = document.getElementById('progressBar');
+            const navbar = document.getElementById('navbar');
+            let isScrolling = false;
+
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                        const scrolled = (winScroll / height) * 100;
+                        progressBar.style.width = scrolled + "%";
+                        
+                        if (winScroll > 100) {
+                            navbar.classList.add('scrolled');
+                        } else {
+                            navbar.classList.remove('scrolled');
+                        }
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            });
+
+            // 4. Mobile Menu Toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            let menuOpen = false;
+
+            menuToggle.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if(menuOpen) {
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                    menuToggle.children[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                    menuToggle.children[1].style.opacity = '0';
+                    menuToggle.children[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                } else {
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                    menuToggle.children[0].style.transform = 'none';
+                    menuToggle.children[1].style.opacity = '1';
+                    menuToggle.children[2].style.transform = 'none';
+                }
+            });
+
+            // 5. Scroll Reveal
+            const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Do not unobserve cards so they can re-animate when filtering
+                        if (!entry.target.classList.contains('port-card')) {
+                            observer.unobserve(entry.target);
+                        }
+                    }
+                });
+            }, revealOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => { revealObserver.observe(el); });
+
+            // 6. Portfolio Filtering Logic
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const portCards = document.querySelectorAll('.port-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button state
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    portCards.forEach(card => {
+                        // Animate out
+                        card.classList.remove('active');
+                        card.classList.add('anim-out');
+                        
+                        setTimeout(() => {
+                            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                                card.style.display = 'flex'; // Restore layout
+                                // Force reflow
+                                void card.offsetWidth;
+                                
+                                card.classList.remove('anim-out');
+                                // Re-trigger scroll reveal if it's in viewport, or just animate in
+                                const rect = card.getBoundingClientRect();
+                                if(rect.top < window.innerHeight) {
+                                    card.classList.add('active');
+                                }
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }, 400); // Matches CSS transition duration
+                    });
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
